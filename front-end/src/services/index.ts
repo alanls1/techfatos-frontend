@@ -1,0 +1,53 @@
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: "http://localhost:8000",
+});
+
+export const fetchNews = async () => {
+  try {
+    const response = await api.get("/");
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchGames = async () => {
+  try {
+    const response = await api.get("/games");
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchSmartphones = async () => {
+  try {
+    const response = await api.get("/smartphones");
+    console.log(response);
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchComputers = async () => {
+  try {
+    const response = await api.get("/computers");
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const findById = async (id: string) => {
+  try {
+    const response = await api.post(`/find/${id}`);
+    return response.data;
+  } catch (error) {}
+};
