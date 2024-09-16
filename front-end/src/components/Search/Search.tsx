@@ -1,10 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { fetchNews } from "@/services";
+import { search } from "@/services";
 import React, { useEffect, useState } from "react";
-import BoxComponent from "../Box/Box";
 import CardComponent from "../Card/Card";
-import CustomizedList from "../List/List";
 import { useParams, useRouter } from "next/navigation";
 
 interface props {
@@ -22,11 +20,9 @@ interface props {
 }
 
 const Search = () => {
-  const [data, setData] = useState<props[]>();
+  const [data, setData] = useState<props[]>([]);
   const roter = useRouter();
-  const params = useParams();
-
-  console.log(params);
+  const { query } = useParams();
 
   const handleClick = (title: string, id: number) => {
     roter.push(
@@ -40,43 +36,35 @@ const Search = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const dataFetch = await fetchNews();
+        const dataFetch = await search(String(query));
 
-        setData(dataFetch.findAllItens);
-      } catch (error) {}
+        setData(dataFetch.findByQuery);
+      } catch (error) {
+        console.error("Erro ao buscar dados", error);
+      }
     }
 
-    const filter =
-      data &&
-      data.filter((item) => item.content.toLowerCase().includes("teste"));
-
-    setData(filter);
-
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
       {data && (
         <div className="mt-8 w-full flex justify-center flex-col items-center">
-          <h2>Resultados encontrados: </h2>
-          <div
-            className="max-w-screen-lg grid mt-10"
-            style={{ gridTemplateColumns: "2fr 1fr" }}
-          >
-            <div>
-              {data.slice(7).map((item, key) => (
-                <CardComponent
-                  content={item.content}
-                  name={item.name}
-                  title={item.title}
-                  urlImage={item.urlToImage}
-                  key={key}
-                  id={item.id}
-                  handleClick={handleClick}
-                />
-              ))}
-            </div>
+          <h2>Resultados encontrados para: {query}</h2>
+          <div className="lg:max-w-screen-lg md:max-w-screen-md sm:max-w-screen-sm px-1 grid grid-cols-1 md:grid-cols-2 mt-10 gap-2">
+            {data.map((item, key) => (
+              <CardComponent
+                content={item.content}
+                name={item.name}
+                title={item.title}
+                urlImage={item.urlToImage}
+                key={key}
+                id={item.id}
+                handleClick={handleClick}
+              />
+            ))}
           </div>
         </div>
       )}

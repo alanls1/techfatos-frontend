@@ -55,6 +55,24 @@ const GameComponent = ({
     setData(filter);
   }, []);
 
+  const textFormatSitemap = () => {
+    console.log("aquio");
+    let sitemap = "";
+    data.map((item) => {
+      if (item.title !== null) {
+        sitemap += `<url>
+          <loc>https://techfatos.com/${urlLocation}/${item?.title
+          .toLowerCase()
+          .replace(/[#?&/]/g, "-")
+          .replace(/ /g, "-")}/${item.id}</loc>
+          <lastmod>2024-09-13T15:20:23+00:00</lastmod>
+          <priority>0.80</priority>
+          </url>`;
+      }
+    });
+    console.log(sitemap);
+  };
+  textFormatSitemap();
   return (
     <>
       {data && (

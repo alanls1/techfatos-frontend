@@ -1,12 +1,10 @@
 "use client";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import { usePathname } from "next/navigation";
-import { GoogleAnalytics } from "@next/third-parties/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,8 +24,6 @@ export default function RootLayout({
 
   return (
     <html lang="pt">
-      <GoogleAnalytics gaId="G-55TG5DG4FH" />
-
       <body className={inter.className}>
         <UserProvider>
           {!isAdminPage && (

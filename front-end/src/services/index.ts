@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "https://techfatos.com/api",
 });
 
 export const fetchNews = async () => {
@@ -48,6 +48,13 @@ export const fetchComputers = async () => {
 export const findById = async (id: string) => {
   try {
     const response = await api.post(`/find/${id}`);
+    return response.data;
+  } catch (error) {}
+};
+
+export const search = async (query: string) => {
+  try {
+    const response = await api.post(`/search/${query}`);
     return response.data;
   } catch (error) {}
 };

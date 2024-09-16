@@ -53,7 +53,7 @@ const Home = () => {
   const day = date.getDay() < 10 ? `0${date.getDay()}` : date.getDay();
   const month = date.getMonth() < 10 ? `0${date.getMonth()}` : date.getMonth();
 
-  let textFormat = data?.content.split(".") || [];
+  let textFormat = data?.content ? data?.content.split(".") : ["sem conteúdo!"];
   const [textBlocks, setTextBlocks] = useState<string[]>([]);
 
   const handleTextChange = (index: number, newText: string) => {

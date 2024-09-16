@@ -1,5 +1,5 @@
 import Search from "@/components/Search/Search";
-import React, { useEffect } from "react";
+import React from "react";
 
 const page = () => {
   return <Search />;

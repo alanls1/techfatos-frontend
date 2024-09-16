@@ -32,7 +32,7 @@ export const Logout = () => {
 
 export const fetchDelete = async (id: number) => {
   try {
-    const response = await api.delete(`/delete/${id}`, {
+    const response = await api.delete(`admin/delete/${id}`, {
       headers: {
         Authorization: `Bearer ${Cookies.get("CinetokAuthToken")}`,
       },
@@ -46,7 +46,7 @@ export const fetchDelete = async (id: number) => {
 export const saveToDatabase = async (id: string, text: string) => {
   try {
     const response = await api.put(
-      `/edit/${id}`,
+      `admin/edit/${id}`,
       { text },
       {
         headers: {
@@ -62,7 +62,7 @@ export const saveToDatabase = async (id: string, text: string) => {
 
 export const addNews = async () => {
   try {
-    const response = await api.get("/add", {
+    const response = await api.get("admin/add", {
       headers: {
         Authorization: `Bearer ${Cookies.get("CinetokAuthToken")}`,
       },

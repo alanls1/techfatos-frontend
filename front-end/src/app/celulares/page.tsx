@@ -1,7 +1,7 @@
 "use client";
 import GameComponent from "@/components/gamesComponent/gameComponent";
 import { fetchSmartphones } from "@/services";
-import { Backdrop, CircularProgress, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
 export default function Home() {
