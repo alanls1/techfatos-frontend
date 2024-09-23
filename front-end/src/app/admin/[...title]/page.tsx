@@ -7,6 +7,8 @@ import Text from "@/components/Text/Text";
 import { Button } from "@mui/material";
 import { saveToDatabase } from "@/services/admin";
 import withAuth from "../withAuth";
+import TextList from "@/components/TextList/TextList";
+import next from "next";
 
 interface props {
   author: string;
@@ -20,6 +22,7 @@ interface props {
   updateAt: Date;
   url: string;
   urlToImage: string;
+  urls: string;
 }
 
 const Home = () => {
@@ -53,22 +56,42 @@ const Home = () => {
   const day = date.getDay() < 10 ? `0${date.getDay()}` : date.getDay();
   const month = date.getMonth() < 10 ? `0${date.getMonth()}` : date.getMonth();
 
-  let textFormat = data?.content ? data?.content.split(".") : ["sem conteúdo!"];
-  const [textBlocks, setTextBlocks] = useState<string[]>([]);
+  let textFormat = data?.content
+    ? data?.content.split("\n")
+    : ["sem conteúdo!"];
+
+  let textListSplit = data?.urls ? data?.urls.split("|*") : ["sem conteúdo!"];
+  console.log(textListSplit);
+
+  const [textBlocks, setTextBlocks] = useState<string[]>(textFormat);
+  const [textBlocksList, setTextBlocksList] = useState<string[]>(textListSplit);
 
   const handleTextChange = (index: number, newText: string) => {
-    setTextBlocks(textFormat);
-    const updatedTextBlocks = [...textFormat];
+    const updatedTextBlocks = [...textBlocks];
     updatedTextBlocks[index] = newText;
 
     setTextBlocks(updatedTextBlocks);
   };
 
-  const handleSave = async () => {
-    const fullText = textBlocks.join(".");
+  const handleTextList = (index: number, newText: string, oldText: string) => {
+    const updatedTextBlocks = [...textBlocksList];
 
-    await saveToDatabase(title[1], fullText);
+    const regex = new RegExp(oldText, "g");
+    updatedTextBlocks[index] = updatedTextBlocks[index].replace(regex, newText);
+    console.log(updatedTextBlocks);
+
+    setTextBlocksList(updatedTextBlocks);
   };
+
+  const handleSave = async () => {
+    const fullText = textBlocks.join("\n");
+    const fullTextList = textBlocksList.join("\n");
+    console.log(fullTextList);
+
+    await saveToDatabase(title[1], fullText, fullTextList);
+  };
+
+  const textList = data?.urls.split("*|");
 
   return (
     <div className="max-w-screen-md mx-auto mt-40 px-2">
@@ -100,7 +123,45 @@ const Home = () => {
           />
         ))}
       </article>
+      <article className="mt-11">
+        {textList?.map((text, key) => {
+          const title = text.slice(
+            text.indexOf("<h3>") + 4,
+            text.indexOf("</h3>")
+          );
+          const imgSrc = text.slice(text.indexOf("/{") + 2, text.indexOf("}/"));
+          const content = text.slice(
+            text.indexOf("</h3> ") + 5,
+            text.indexOf("/{")
+          );
 
+          return (
+            <div key={key}>
+              <h3 className="text-3xl">
+                <TextList
+                  text={title}
+                  index={key}
+                  handleTextChange={(index, newText) =>
+                    handleTextList(index, newText, title)
+                  }
+                />
+              </h3>
+              <img
+                src={imgSrc}
+                alt={data?.title}
+                className="w-full max-h-96 mt-11"
+              />
+              <TextList
+                text={content}
+                index={key}
+                handleTextChange={(index, newText) =>
+                  handleTextList(index, newText, content)
+                }
+              />
+            </div>
+          );
+        })}
+      </article>
       <article>
         <p>
           confira mais sobre{" "}

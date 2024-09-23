@@ -5,24 +5,26 @@ import React, { useEffect, useState } from "react";
 
 import "./style.css";
 
-interface props {
+interface Props {
   author: string;
   content: string;
-  creadtedAt: string;
+  createdAt: string;
   description: string;
   id: number;
   name: string;
   publishedAt: Date;
   title: string;
-  updateAt: Date;
+  updatedAt: Date;
   url: string;
   urlToImage: string;
+  urls: string;
 }
 
 const Home = () => {
   const { title } = useParams();
-  const [data, setData] = useState<props>();
-  const [suggest, setSuggest] = useState([]);
+  const [data, setData] = useState<Props>();
+  const [suggestions, setSuggestions] = useState<Props[]>([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   const handleClick = (title: string, id: number) => {
@@ -34,36 +36,47 @@ const Home = () => {
     );
   };
 
+  const formatDate = (date: Date) => {
+    const d = new Date(date);
+    return `${String(d.getDate()).padStart(2, "0")}/${String(
+      d.getMonth() + 1
+    ).padStart(2, "0")}/${d.getFullYear()}`;
+  };
+
   useEffect(() => {
-    async function getDate() {
-      const response: any = await findById(title[1]);
-
-      if (response?.findById) {
-        setData(response?.findById?.findBy);
-        setSuggest(response?.findById?.suggest);
+    const getData = async () => {
+      try {
+        const response: any = await findById(title[1]);
+        if (response?.findById) {
+          setData(response.findById.findBy);
+          setSuggestions(response.findById.suggest);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
-    }
-    getDate();
-  }, []);
+    };
+    getData();
+  }, [title]);
 
-  const date = new Date(data?.publishedAt ?? Date.now());
-  const day = date.getDay() < 10 ? `0${date.getDay()}` : date.getDay();
-  const month = date.getMonth() < 10 ? `0${date.getMonth()}` : date.getMonth();
+  if (loading) return <div>Loading...</div>;
 
-  const textFormat = data?.content.split(".");
+  const textFormat = data?.content.split("\n");
+  const textList = data?.urls.split("*|");
 
   return (
     <div className="max-w-screen-md mx-auto mt-40 px-2">
-      <div>
-        <h1 className="text-4xl">{data?.title}</h1>
+      <h1 className="text-4xl">{data?.title}</h1>
+      <p className="text-xs">
+        {data?.publishedAt && formatDate(data.publishedAt)}
+      </p>
 
-        <p className="text-xs"> {`${day}/${month}/${date.getFullYear()}`}</p>
-      </div>
       <div>
         <img
           src={data?.urlToImage}
           alt={data?.author}
-          className=" w-full max-h-96 mt-11"
+          className="w-full max-h-96 mt-11"
         />
         <a
           className="text-xs max-w-screen-sm text-cyan-500"
@@ -72,6 +85,7 @@ const Home = () => {
           Origem da imagem
         </a>
       </div>
+
       <article className="mt-11">
         {textFormat?.map((text, key) => (
           <p key={key} className="my-10">
@@ -80,22 +94,52 @@ const Home = () => {
         ))}
       </article>
 
+      <article className="mt-11">
+        {textList?.map((text, key) => {
+          const title = text.slice(
+            text.indexOf("<h3>") + 4,
+            text.indexOf("</h3>")
+          );
+          const imgSrc = text.slice(text.indexOf("/{") + 2, text.indexOf("}/"));
+          const content = text.slice(
+            text.indexOf("</h3> ") + 5,
+            text.indexOf("/{")
+          );
+          return (
+            <div key={key}>
+              <h3 className="text-3xl">{title}</h3>
+              <img
+                src={imgSrc}
+                alt={data?.title}
+                className="w-full max-h-96 mt-11"
+              />
+              <p className="my-10">{content}</p>
+            </div>
+          );
+        })}
+      </article>
+
       <article>
         <p>
-          confira mais sobre{" "}
-          <a href={data?.url} className="text-cyan-500" target="_blank">
+          Confira mais sobre{" "}
+          <a
+            href={data?.url}
+            className="text-cyan-500"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Aqui!
           </a>
         </p>
       </article>
 
       <div>
-        <h4 className="text-base mt-5">Sugestões para Você: </h4>
+        <h4 className="text-base mt-5">Sugestões para Você:</h4>
         <div className="overflow-x-auto overflow-y-hidden suggest">
-          <div className="flex  w-max">
-            {suggest.map(
-              (item: props, key) =>
-                item.id != Number(title[1]) && (
+          <div className="flex w-max">
+            {suggestions.map(
+              (item, key) =>
+                item.id !== Number(title[1]) && (
                   <div
                     key={key}
                     className="w-80 mr-3 relative cursor-pointer"

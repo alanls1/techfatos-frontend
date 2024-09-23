@@ -1,6 +1,7 @@
 const express = require("express");
 const admin = express.Router();
-const { fetchDelete, fetchEdit } = require("../services/admin");
+
+const { fetchDelete, fetchEdit, fetchNewPost } = require("../services/admin");
 const { checkAndUpdate } = require("../config/fetch");
 
 admin.use(express.json());
@@ -20,9 +21,9 @@ admin.delete("/delete/:id", async (req, res) => {
 admin.put("/edit/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { text } = req.body;
+    const { text, fullTextList } = req.body;
 
-    await fetchEdit(id, text);
+    await fetchEdit(id, text, fullTextList);
 
     res.status(200).send();
   } catch (error) {
@@ -32,10 +33,20 @@ admin.put("/edit/:id", async (req, res) => {
 
 admin.get("/add", async (req, res) => {
   try {
-    console.log("oi");
-
     const news = await checkAndUpdate();
     res.json({ news });
+  } catch (error) {}
+});
+
+admin.post("/newPost", async (req, res) => {
+  try {
+    const { title, url, urlToImage, content, list } = req.body;
+    console.log(list);
+
+    const date = new Date();
+
+    const news = fetchNewPost(title, url, urlToImage, content, date, list);
+    return news;
   } catch (error) {}
 });
 

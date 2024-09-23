@@ -3,6 +3,7 @@ import { addNews } from "@/services/admin";
 import { Button } from "@mui/material";
 import React from "react";
 import withAuth from "../withAuth";
+import Form from "../components/Form/Form";
 
 const page = () => {
   const handleClick = async () => {
@@ -15,6 +16,9 @@ const page = () => {
         <Button variant="contained" onClick={handleClick}>
           Adicionar
         </Button>
+      </div>
+      <div>
+        <Form />
       </div>
     </div>
   );

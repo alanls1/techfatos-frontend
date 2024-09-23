@@ -8,7 +8,7 @@ const corsOptions = require("./src/config/WebConfig");
 
 const Port = 8000;
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 sequelize.sync();
 

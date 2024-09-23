@@ -1,5 +1,4 @@
 import Section from "@/components/Section/Section";
-import type { Metadata } from "next";
 
 export const metadata = {
   title: "Techfatos",

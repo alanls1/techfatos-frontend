@@ -44,6 +44,9 @@ const News = sequelize.define("News", {
   content: {
     type: DataTypes.TEXT,
   },
+  urls: {
+    type: DataTypes.TEXT,
+  },
 });
 
 const ApiUpdate = sequelize.define("api_update", {

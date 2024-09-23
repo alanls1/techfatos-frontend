@@ -4,20 +4,20 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import { Button, IconButton, TextField } from "@mui/material";
 
-const Text = ({
+const TextList = ({
   text,
   index,
   handleTextChange,
 }: {
   text: string;
   index: number;
-  handleTextChange: (key: number, newText: string) => void;
+  handleTextChange: (key: number, newText: string, oldText: string) => void;
 }) => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState(text);
 
   const handleConfirm = () => {
-    handleTextChange(index, message);
+    handleTextChange(index, message, text);
     setOpen(false);
   };
 
@@ -69,4 +69,4 @@ const Text = ({
   );
 };
 
-export default Text;
+export default TextList;

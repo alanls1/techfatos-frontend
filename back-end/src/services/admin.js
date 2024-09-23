@@ -8,14 +8,36 @@ const fetchDelete = async (id) => {
   }
 };
 
-const fetchEdit = async (id, text) => {
+const fetchEdit = async (id, text, fullTextList) => {
   try {
+    console.log(text, fullTextList);
+
     const news = await News.findOne({ where: { id } });
     news.content = text;
     news.publishedAt = new Date();
+    if (fullTextList) {
+      news.urls = fullTextList;
+    }
     await news.save();
   } catch (error) {
     throw new Error(error);
   }
 };
-module.exports = { fetchDelete, fetchEdit };
+
+const fetchNewPost = async (title, url, urlToImage, content, date, list) => {
+  try {
+    const news = await News.create({
+      title,
+      url,
+      urlToImage,
+      content,
+      publishedAt: date,
+      urls: list,
+    });
+
+    return news;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+module.exports = { fetchDelete, fetchEdit, fetchNewPost };

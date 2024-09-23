@@ -15,11 +15,22 @@ const Footer = () => {
         </li>
         <li className="cursor-pointer mx-4">Desenvolvimento de Software</li>
       </ul>
-      <div style={{ fontFamily: "fantasy", fontSize: "0.8rem" }}>
+      <div
+        style={{
+          fontFamily: "fantasy",
+          fontSize: "0.8rem",
+          textAlign: "center",
+        }}
+      >
         <p>
           2024© Todos os direitos reservados a Tech
           <span className="text-red-400">Fatos</span>
         </p>
+        <a href="/termsandpolicies">
+          <span style={{ color: "rgb(196 191 191 / 80%)", fontSize: "12px" }}>
+            Termos e condições
+          </span>
+        </a>
       </div>
     </footer>
   );

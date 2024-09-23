@@ -52,18 +52,20 @@ async function fetchAndSaveNews() {
         if (!existingNews && content !== null) {
           const getContent = await getMainContent(url);
 
-          const news = await News.create({
-            name: source.name,
-            title,
-            author: author || "Desconhecido",
-            description,
-            url,
-            urlToImage,
-            publishedAt,
-            content: getContent,
-          });
+          if (getContent) {
+            const news = await News.create({
+              name: source.name,
+              title,
+              author: author || "Desconhecido",
+              description,
+              url,
+              urlToImage,
+              publishedAt,
+              content: getContent,
+            });
 
-          return news;
+            return news;
+          }
         }
         return null;
       })
@@ -88,15 +90,16 @@ async function getMainContent(url) {
     const dom = new JSDOM(html);
     const reader = new Readability(dom.window.document);
     const article = reader.parse();
-    const getChat = await getChatGPTResponse(
-      ` "${article.textContent}"
 
-        Reescreva o texto acima de forma clara e objetiva, mantendo até 80% do texto original, mude apenas algumas palavras. Evite remover detalhes importantes e parafraseie o conteúdo sem resumir excessivamente. Exclua apenas o que for irrelevante ou que se refira a links externos, propagandas ou informações não relacionadas ao tema central. +
-        
-      `
-    );
+    // const getChat = await getChatGPTResponse(
+    //   ` "${article.textContent}"
 
-    return getChat;
+    //     Reescreva o texto acima de forma clara e objetiva, mantendo até 80% do texto original, mude apenas algumas palavras. Evite remover detalhes importantes e parafraseie o conteúdo sem resumir excessivamente. Exclua apenas o que for irrelevante ou que se refira a links externos, propagandas ou informações não relacionadas ao tema central, adicione mais informações caso seja necessarío.
+
+    //   `
+    // );
+
+    // return getChat;
   } catch (error) {
     console.error("Erro ao extrair o conteúdo principal:", error);
     return null;

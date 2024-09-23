@@ -1,14 +1,14 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const api = axios.create({
+export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
 export const fetchDataLogin = async (name: string, password: string) => {
   try {
     const response = await api.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+      `${process.env.NEXT_PUBLIC_API_URL}auth/login`,
       {
         login: name,
         password: password,
@@ -43,11 +43,15 @@ export const fetchDelete = async (id: number) => {
   }
 };
 
-export const saveToDatabase = async (id: string, text: string) => {
+export const saveToDatabase = async (
+  id: string,
+  text: string,
+  fullTextList: string
+) => {
   try {
     const response = await api.put(
       `admin/edit/${id}`,
-      { text },
+      { text, fullTextList },
       {
         headers: {
           Authorization: `Bearer ${Cookies.get("CinetokAuthToken")}`,
@@ -63,6 +67,24 @@ export const saveToDatabase = async (id: string, text: string) => {
 export const addNews = async () => {
   try {
     const response = await api.get("admin/add", {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("CinetokAuthToken")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchAddManualy = async (formData: {
+  title: string;
+  urlContent: string;
+  urlImage: string;
+  content: string;
+}) => {
+  try {
+    const response = await api.post("admin/newPost", formData, {
       headers: {
         Authorization: `Bearer ${Cookies.get("CinetokAuthToken")}`,
       },
