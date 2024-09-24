@@ -4,7 +4,6 @@ import { fetchNews } from "@/services";
 import React, { useEffect, useState } from "react";
 import BoxComponent from "../BoxAdmin/Box";
 import CardComponent from "../CardAdmin/Card";
-import CustomizedList from "../List/List";
 import { useRouter } from "next/navigation";
 
 interface props {
@@ -23,10 +22,10 @@ interface props {
 
 const Section = () => {
   const [data, setData] = useState<props[]>();
-  const roter = useRouter();
+  const router = useRouter();
 
   const handleClick = (title: string, id: number) => {
-    roter.push(
+    router.push(
       `admin/${title
         .toLowerCase()
         .replace(/[#?&/]/g, "-")
@@ -116,28 +115,18 @@ const Section = () => {
               />
             </div>
           </div>
-          <div
-            className="max-w-screen-lg grid mt-10"
-            style={{ gridTemplateColumns: "2fr 1fr" }}
-          >
-            <div>
-              {data.slice(7).map((item, key) => (
-                <CardComponent
-                  content={item.content}
-                  name={item.name}
-                  title={item.title}
-                  urlImage={item.urlToImage}
-                  key={key}
-                  id={item.id}
-                  handleClick={handleClick}
-                />
-              ))}
-            </div>
-            <CustomizedList
-              computadores="/admin/computadores"
-              smartphones="/admin/celulares"
-              games="/admin/jogos"
-            />
+          <div className="lg:max-w-screen-lg md:max-w-screen-md sm:max-w-screen-sm px-1 grid grid-cols-1 md:grid-cols-2 mt-10 gap-2">
+            {data.slice(7).map((item, key) => (
+              <CardComponent
+                content={item.content}
+                name={item.name}
+                title={item.title}
+                urlImage={item.urlToImage}
+                key={key}
+                id={item.id}
+                handleClick={handleClick}
+              />
+            ))}
           </div>
         </div>
       )}

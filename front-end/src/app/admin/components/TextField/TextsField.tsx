@@ -1,15 +1,19 @@
 import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 
-const TextsField = ({ List }: { List: (text: string) => void }) => {
+const TextsField = ({
+  List,
+}: {
+  List: (text: string, content: string) => void;
+}) => {
   const [urlImage, setUrlImage] = useState("");
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
 
   const concat = () => {
-    const concatText = `|* <h3>${title}</h3> ${content}/{${urlImage}}/ *|`;
+    const concatText = `|* ${content}/{${urlImage}}/ *|`;
 
-    List(concatText);
+    List(title, concatText);
   };
 
   return (

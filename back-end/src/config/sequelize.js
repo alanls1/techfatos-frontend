@@ -1,8 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 require("dotenv").config();
 
-console.log("uae", process.env.USER);
-
 const sequelize = new Sequelize(
   process.env.DATA_BASE,
   process.env.USER,
@@ -45,6 +43,9 @@ const News = sequelize.define("News", {
     type: DataTypes.TEXT,
   },
   urls: {
+    type: DataTypes.TEXT,
+  },
+  titleSecond: {
     type: DataTypes.TEXT,
   },
 });

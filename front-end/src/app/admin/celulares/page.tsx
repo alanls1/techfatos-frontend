@@ -12,7 +12,6 @@ function Home() {
     async function fetchData() {
       try {
         const dataFetch = await fetchSmartphones();
-        console.log(dataFetch);
 
         setData(dataFetch.findSmartphones);
       } catch (error) {}

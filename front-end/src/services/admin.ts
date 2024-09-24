@@ -46,12 +46,13 @@ export const fetchDelete = async (id: number) => {
 export const saveToDatabase = async (
   id: string,
   text: string,
-  fullTextList: string
+  fullTextList: string,
+  fullTitleList: string
 ) => {
   try {
     const response = await api.put(
       `admin/edit/${id}`,
-      { text, fullTextList },
+      { text, fullTextList, fullTitleList },
       {
         headers: {
           Authorization: `Bearer ${Cookies.get("CinetokAuthToken")}`,
@@ -82,6 +83,8 @@ export const fetchAddManualy = async (formData: {
   urlContent: string;
   urlImage: string;
   content: string;
+  list: string;
+  titleSecond: string;
 }) => {
   try {
     const response = await api.post("admin/newPost", formData, {

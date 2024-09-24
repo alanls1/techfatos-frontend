@@ -8,15 +8,16 @@ const fetchDelete = async (id) => {
   }
 };
 
-const fetchEdit = async (id, text, fullTextList) => {
+const fetchEdit = async (id, text, fullTextList, fullTitleList) => {
   try {
-    console.log(text, fullTextList);
-
     const news = await News.findOne({ where: { id } });
     news.content = text;
     news.publishedAt = new Date();
     if (fullTextList) {
       news.urls = fullTextList;
+    }
+    if (fullTitleList) {
+      news.titleSecond = fullTitleList;
     }
     await news.save();
   } catch (error) {
@@ -24,7 +25,15 @@ const fetchEdit = async (id, text, fullTextList) => {
   }
 };
 
-const fetchNewPost = async (title, url, urlToImage, content, date, list) => {
+const fetchNewPost = async (
+  title,
+  url,
+  urlToImage,
+  content,
+  date,
+  list,
+  titleSecond
+) => {
   try {
     const news = await News.create({
       title,
@@ -33,6 +42,7 @@ const fetchNewPost = async (title, url, urlToImage, content, date, list) => {
       content,
       publishedAt: date,
       urls: list,
+      titleSecond,
     });
 
     return news;

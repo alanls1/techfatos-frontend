@@ -21,9 +21,9 @@ admin.delete("/delete/:id", async (req, res) => {
 admin.put("/edit/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { text, fullTextList } = req.body;
+    const { text, fullTextList, fullTitleList } = req.body;
 
-    await fetchEdit(id, text, fullTextList);
+    await fetchEdit(id, text, fullTextList, fullTitleList);
 
     res.status(200).send();
   } catch (error) {
@@ -40,12 +40,19 @@ admin.get("/add", async (req, res) => {
 
 admin.post("/newPost", async (req, res) => {
   try {
-    const { title, url, urlToImage, content, list } = req.body;
-    console.log(list);
+    const { title, url, urlToImage, content, list, titleSecond } = req.body;
 
     const date = new Date();
 
-    const news = fetchNewPost(title, url, urlToImage, content, date, list);
+    const news = fetchNewPost(
+      title,
+      url,
+      urlToImage,
+      content,
+      date,
+      list,
+      titleSecond
+    );
     return news;
   } catch (error) {}
 });

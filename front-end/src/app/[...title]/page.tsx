@@ -18,6 +18,7 @@ interface Props {
   url: string;
   urlToImage: string;
   urls: string;
+  titleSecond: string;
 }
 
 const Home = () => {
@@ -62,8 +63,8 @@ const Home = () => {
 
   if (loading) return <div>Loading...</div>;
 
-  const textFormat = data?.content.split("\n");
-  const textList = data?.urls.split("*|");
+  const textFormat = data?.content ? data?.content.split("\n") : [];
+  const textList = data?.urls ? data.urls.split("|*") : [];
 
   return (
     <div className="max-w-screen-md mx-auto mt-40 px-2">
@@ -73,11 +74,13 @@ const Home = () => {
       </p>
 
       <div>
-        <img
-          src={data?.urlToImage}
-          alt={data?.author}
-          className="w-full max-h-96 mt-11"
-        />
+        {data?.urlToImage && (
+          <img
+            src={data?.urlToImage}
+            alt={data?.author}
+            className="w-full max-h-96 mt-11"
+          />
+        )}
         <a
           className="text-xs max-w-screen-sm text-cyan-500"
           href={data?.urlToImage}
@@ -96,41 +99,37 @@ const Home = () => {
 
       <article className="mt-11">
         {textList?.map((text, key) => {
-          const title = text.slice(
-            text.indexOf("<h3>") + 4,
-            text.indexOf("</h3>")
-          );
-          const imgSrc = text.slice(text.indexOf("/{") + 2, text.indexOf("}/"));
+          const title = data?.titleSecond.split("|*");
+          const imgSrc = text
+            .slice(text.indexOf("/{") + 2, text.indexOf("}/"))
+            .trim();
           const content = text.slice(
-            text.indexOf("</h3> ") + 5,
+            text.indexOf("|*") + 1,
             text.indexOf("/{")
           );
+
           return (
             <div key={key}>
-              <h3 className="text-3xl">{title}</h3>
-              <img
-                src={imgSrc}
-                alt={data?.title}
-                className="w-full max-h-96 mt-11"
-              />
+              <h3 className="text-3xl">{title && title[key]}</h3>
+              {imgSrc && (
+                <>
+                  <img
+                    src={imgSrc}
+                    alt={title && title[key]}
+                    className="w-full max-h-96 mt-11"
+                  />
+                  <a
+                    className="text-xs max-w-screen-sm text-cyan-500"
+                    href={imgSrc}
+                  >
+                    Origem da imagem
+                  </a>
+                </>
+              )}
               <p className="my-10">{content}</p>
             </div>
           );
         })}
-      </article>
-
-      <article>
-        <p>
-          Confira mais sobre{" "}
-          <a
-            href={data?.url}
-            className="text-cyan-500"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Aqui!
-          </a>
-        </p>
       </article>
 
       <div>

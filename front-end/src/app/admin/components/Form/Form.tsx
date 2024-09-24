@@ -10,6 +10,7 @@ const Form = () => {
   const [urlImage, setUrlImage] = useState("");
   const [content, setContent] = useState("");
   const [control, setControl] = useState(0);
+  const [titleSecond, setTitleSecond] = useState("");
   const [list, setList] = useState("");
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -20,6 +21,7 @@ const Form = () => {
       urlToImage: urlImage,
       content,
       list,
+      titleSecond,
     };
 
     handleTryCath(formData);
@@ -33,9 +35,9 @@ const Form = () => {
     }
   };
 
-  const getTexts = (text: string) => {
-    setList((prev) => prev + " \n " + text);
-    console.log(list);
+  const getTexts = (title: string, content: string) => {
+    setList((prev) => prev + content);
+    setTitleSecond((prev) => prev + "|* " + title);
   };
 
   return (

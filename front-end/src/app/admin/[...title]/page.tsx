@@ -7,8 +7,6 @@ import Text from "@/components/Text/Text";
 import { Button } from "@mui/material";
 import { saveToDatabase } from "@/services/admin";
 import withAuth from "../withAuth";
-import TextList from "@/components/TextList/TextList";
-import next from "next";
 
 interface props {
   author: string;
@@ -23,16 +21,17 @@ interface props {
   url: string;
   urlToImage: string;
   urls: string;
+  titleSecond: string;
 }
 
 const Home = () => {
   const { title } = useParams();
   const [data, setData] = useState<props>();
   const [suggest, setSuggest] = useState([]);
-  const roter = useRouter();
+  const router = useRouter();
 
   const handleClick = (title: string, id: number) => {
-    roter.push(
+    router.push(
       `/admin/${title
         .toLowerCase()
         .replace(/[#?&/]/g, "-")
@@ -61,10 +60,20 @@ const Home = () => {
     : ["sem conteúdo!"];
 
   let textListSplit = data?.urls ? data?.urls.split("|*") : ["sem conteúdo!"];
-  console.log(textListSplit);
 
-  const [textBlocks, setTextBlocks] = useState<string[]>(textFormat);
-  const [textBlocksList, setTextBlocksList] = useState<string[]>(textListSplit);
+  let titleListSplit = data?.titleSecond
+    ? data?.titleSecond.split("|*")
+    : ["sem conteúdo!"];
+
+  const [textBlocks, setTextBlocks] = useState<string[]>([]);
+  const [textBlocksList, setTextBlocksList] = useState<string[]>([]);
+  const [titleBlocks, setTitleBlocksList] = useState<string[]>([]);
+
+  useEffect(() => {
+    setTextBlocks(textFormat);
+    setTextBlocksList(textListSplit);
+    setTitleBlocksList(titleListSplit);
+  }, [data]);
 
   const handleTextChange = (index: number, newText: string) => {
     const updatedTextBlocks = [...textBlocks];
@@ -72,26 +81,34 @@ const Home = () => {
 
     setTextBlocks(updatedTextBlocks);
   };
-
-  const handleTextList = (index: number, newText: string, oldText: string) => {
+  const handleTextList = (index: number, newText: string) => {
     const updatedTextBlocks = [...textBlocksList];
+    const takeUrl = updatedTextBlocks[index].slice(
+      updatedTextBlocks[index].indexOf("/{") + 2,
+      updatedTextBlocks[index].indexOf("}/")
+    );
 
-    const regex = new RegExp(oldText, "g");
-    updatedTextBlocks[index] = updatedTextBlocks[index].replace(regex, newText);
-    console.log(updatedTextBlocks);
+    updatedTextBlocks[index] = newText + ` /{${takeUrl}}/`;
 
     setTextBlocksList(updatedTextBlocks);
   };
 
-  const handleSave = async () => {
-    const fullText = textBlocks.join("\n");
-    const fullTextList = textBlocksList.join("\n");
-    console.log(fullTextList);
+  const handleTitleChange = (index: number, newText: string) => {
+    const updatedTextBlocks = [...titleBlocks];
+    updatedTextBlocks[index] = newText;
 
-    await saveToDatabase(title[1], fullText, fullTextList);
+    setTitleBlocksList(updatedTextBlocks);
   };
 
-  const textList = data?.urls.split("*|");
+  const handleSave = async () => {
+    const fullText = textBlocks.join("\n");
+    const fullTextList = textBlocksList.join(" |*");
+    const fullTitleList = titleBlocks.join(" |*");
+
+    await saveToDatabase(title[1], fullText, fullTextList, fullTitleList);
+  };
+
+  const textList = data?.urls ? data.urls.split("|*") : [];
 
   return (
     <div className="max-w-screen-md mx-auto mt-40 px-2">
@@ -125,51 +142,55 @@ const Home = () => {
       </article>
       <article className="mt-11">
         {textList?.map((text, key) => {
-          const title = text.slice(
-            text.indexOf("<h3>") + 4,
-            text.indexOf("</h3>")
-          );
-          const imgSrc = text.slice(text.indexOf("/{") + 2, text.indexOf("}/"));
+          const title = data?.titleSecond.split("|*");
+          const imgSrc = text
+            .slice(text.indexOf("/{") + 2, text.indexOf("}/"))
+            .trim();
           const content = text.slice(
-            text.indexOf("</h3> ") + 5,
+            text.indexOf("|*") + 1,
             text.indexOf("/{")
           );
 
           return (
             <div key={key}>
               <h3 className="text-3xl">
-                <TextList
-                  text={title}
-                  index={key}
-                  handleTextChange={(index, newText) =>
-                    handleTextList(index, newText, title)
-                  }
-                />
+                {title && (
+                  <Text
+                    handleTextChange={handleTitleChange}
+                    index={key}
+                    text={title[key]}
+                    key={key}
+                  />
+                )}
               </h3>
-              <img
-                src={imgSrc}
-                alt={data?.title}
-                className="w-full max-h-96 mt-11"
-              />
-              <TextList
-                text={content}
-                index={key}
-                handleTextChange={(index, newText) =>
-                  handleTextList(index, newText, content)
-                }
-              />
+              {imgSrc && (
+                <>
+                  <img
+                    src={imgSrc}
+                    alt={title && title[key]}
+                    className="w-full max-h-96 mt-11"
+                  />
+                  <a
+                    className="text-xs max-w-screen-sm text-cyan-500"
+                    href={imgSrc}
+                  >
+                    Origem da imagem
+                  </a>
+                </>
+              )}
+              <p className="my-10">
+                <Text
+                  handleTextChange={handleTextList}
+                  index={key}
+                  text={content}
+                  key={key}
+                />
+              </p>
             </div>
           );
         })}
       </article>
-      <article>
-        <p>
-          confira mais sobre{" "}
-          <a href={data?.url} className="text-cyan-500" target="_blank">
-            Aqui!
-          </a>
-        </p>
-      </article>
+
       <div>
         <Button
           variant="contained"
