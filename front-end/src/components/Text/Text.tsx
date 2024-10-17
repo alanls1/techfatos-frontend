@@ -42,6 +42,9 @@ const Text = ({
             variant="outlined"
             sx={{
               width: "100%",
+              textarea: {
+                resize: "block",
+              },
             }}
             value={message}
             onChange={(e) => setMessage(e.target.value)}

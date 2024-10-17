@@ -55,29 +55,11 @@ const GameComponent = ({
     setData(filter);
   }, []);
 
-  const textFormatSitemap = () => {
-    console.log("aquio");
-    let sitemap = "";
-    data.map((item) => {
-      if (item.title !== null) {
-        sitemap += `<url>
-          <loc>https://techfatos.com/${urlLocation}/${item?.title
-          .toLowerCase()
-          .replace(/[#?&/]/g, "-")
-          .replace(/ /g, "-")}/${item.id}</loc>
-          <lastmod>2024-09-13T15:20:23+00:00</lastmod>
-          <priority>0.80</priority>
-          </url>`;
-      }
-    });
-    console.log(sitemap);
-  };
-  textFormatSitemap();
   return (
     <>
       {data && (
         <div className="mt-8 w-full flex justify-center flex-col items-center">
-          <div className=" md:max-w-screen-lg">
+          <div className="w-[-webkit-fill-available] lg:max-w-screen-[900px] md:max-w-screen-md sm:max-w-screen-sm md:min-w-[600px] sm:min-w-[400px]  max-h-[300px] px-1">
             <BoxComponent
               urlImage={data[0]?.urlToImage ? data[0].urlToImage : ""}
               author={data[0]?.author ? data[0].author : ""}

@@ -12,7 +12,7 @@ export default function AdminLayout({
 
   return (
     <>
-      {path === "/admin/login" ? (
+      {path === "/alan-admin/login" ? (
         <Navbar
           home="/"
           cpu="/computadores"
@@ -21,15 +21,15 @@ export default function AdminLayout({
         />
       ) : (
         <Navbar
-          home="/admin"
-          cpu="/admin/computadores"
-          smartphones="/admin/celulares"
-          games="/admin/jogos"
+          home="/alan-admin"
+          cpu="/alan-admin/computadores"
+          smartphones="/alan-admin/celulares"
+          games="/alan-admin/jogos"
         />
       )}
 
       <main>
-        {path !== "/admin/login" && <AvatarMenu />}
+        {path !== "/alan-admin/login" && <AvatarMenu />}
 
         {children}
       </main>

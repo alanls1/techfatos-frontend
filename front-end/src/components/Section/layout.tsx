@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
 
-  const isAdminPage = pathname.startsWith("/alan-admin");
+  const isAdminPage = pathname.startsWith("/admin");
 
   return (
     <html lang="pt">

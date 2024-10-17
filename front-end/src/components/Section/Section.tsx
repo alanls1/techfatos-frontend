@@ -65,8 +65,8 @@ const Section = () => {
         </div>
       )}
       {data && (
-        <div className="mt-8 w-full flex justify-center flex-col items-center">
-          <div className="lg:max-w-screen-lg md:max-w-screen-md sm:max-w-screen-sm px-1">
+        <div className="mt-8 w-full w flex justify-center flex-col items-center">
+          <div className="w-[-webkit-fill-available] lg:max-w-screen-[900px] md:max-w-screen-md sm:max-w-screen-sm md:min-w-[600px] sm:min-w-[400px]  max-h-[300px] px-1">
             <BoxComponent
               urlImage={data[0].urlToImage}
               author={data[0].author}
@@ -76,7 +76,7 @@ const Section = () => {
               handleClick={handleClick}
             />
           </div>
-          <div className="lg:max-w-screen-lg md:max-w-screen-md sm:max-w-screen-sm px-1 grid grid-cols-2 mt-10 md:gap-12 gap-1">
+          <div className="w-[-webkit-fill-available] lg:max-w-screen-[900px] md:max-w-screen-md sm:max-w-screen-sm px-1 grid grid-cols-2 mt-4 gap-1">
             <BoxComponent
               urlImage={data[1].urlToImage}
               author={data[1].author}
@@ -94,7 +94,7 @@ const Section = () => {
               handleClick={handleClick}
             />
           </div>
-          <div className="lg:max-w-screen-lg md:max-w-screen-md sm:max-w-screen-sm px-1  grid grid-cols-2 mt-10 gap-1">
+          <div className="w-[-webkit-fill-available] lg:max-w-screen-[900px] md:max-w-screen-md sm:max-w-screen-sm px-1  grid grid-cols-2 mt-4 gap-1">
             <div className=" grid grid-cols-1 gap-1">
               <BoxComponent
                 urlImage={data[5].urlToImage}

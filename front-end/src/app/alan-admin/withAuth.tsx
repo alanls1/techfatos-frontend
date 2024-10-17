@@ -11,7 +11,7 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
 
     useEffect(() => {
       if (!token) {
-        router.push("/admin/login");
+        router.push("/alan-admin/login");
       }
     }, [token, router]);
 

@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 const Popover = () => {
   useEffect(() => {
     const termsAccepted = localStorage.getItem("termsAcceptedTechFatos");
-    console.log(termsAccepted);
     if (!termsAccepted || termsAccepted === "false") {
       setOpenModal(true);
     }

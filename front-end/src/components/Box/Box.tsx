@@ -6,7 +6,6 @@ const BoxComponent = ({
   urlImage,
   title,
   name,
-  author,
   id,
   handleClick,
 }: {
@@ -23,6 +22,7 @@ const BoxComponent = ({
         position: "relative",
         borderRadius: "10px",
         cursor: "pointer",
+        maxHeight: "-webkit-fill-available",
       }}
     >
       <img
@@ -31,10 +31,10 @@ const BoxComponent = ({
         alt={title || name}
         style={{
           width: "100%",
-          height: "100%",
+          maxHeight: "300px",
           borderRadius: "10px",
         }}
-        className="object-fill"
+        className="object-cover"
         loading="lazy"
       />
       <div

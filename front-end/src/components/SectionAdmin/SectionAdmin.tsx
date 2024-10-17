@@ -26,7 +26,7 @@ const Section = () => {
 
   const handleClick = (title: string, id: number) => {
     router.push(
-      `admin/${title
+      `alan-admin/${title
         .toLowerCase()
         .replace(/[#?&/]/g, "-")
         .replace(/ /g, "-")}/${id}`

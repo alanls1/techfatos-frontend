@@ -48,7 +48,7 @@ export default function Page() {
       setError("Login feito com sucesso!");
       setTimeout(() => {
         setError("");
-        router.push("/admin");
+        router.push("/alan-admin");
       }, 2000);
     } catch (error: any) {
       setError(error);
@@ -94,6 +94,7 @@ export default function Page() {
           }
           label="Password"
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && access()}
         />
       </FormControl>
       <Button

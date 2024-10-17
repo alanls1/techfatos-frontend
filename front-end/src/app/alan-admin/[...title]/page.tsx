@@ -55,15 +55,11 @@ const Home = () => {
   const day = date.getDay() < 10 ? `0${date.getDay()}` : date.getDay();
   const month = date.getMonth() < 10 ? `0${date.getMonth()}` : date.getMonth();
 
-  let textFormat = data?.content
-    ? data?.content.split("\n")
-    : ["sem conteúdo!"];
+  let textFormat = data?.content ? data?.content.split("\n") : [];
 
-  let textListSplit = data?.urls ? data?.urls.split("|*") : ["sem conteúdo!"];
+  let textListSplit = data?.urls ? data?.urls.split("|*") : [];
 
-  let titleListSplit = data?.titleSecond
-    ? data?.titleSecond.split("|*")
-    : ["sem conteúdo!"];
+  let titleListSplit = data?.titleSecond ? data?.titleSecond.split("|*") : [];
 
   const [textBlocks, setTextBlocks] = useState<string[]>([]);
   const [textBlocksList, setTextBlocksList] = useState<string[]>([]);
@@ -141,54 +137,55 @@ const Home = () => {
         ))}
       </article>
       <article className="mt-11">
-        {textList?.map((text, key) => {
-          const title = data?.titleSecond.split("|*");
-          const imgSrc = text
-            .slice(text.indexOf("/{") + 2, text.indexOf("}/"))
-            .trim();
-          const content = text.slice(
-            text.indexOf("|*") + 1,
-            text.indexOf("/{")
-          );
+        {textList &&
+          textList?.map((text, key) => {
+            const title = data?.titleSecond.split("|*");
+            const imgSrc = text
+              .slice(text.indexOf("/{") + 2, text.indexOf("}/"))
+              .trim();
+            const content = text.slice(
+              text.indexOf("|*") + 1,
+              text.indexOf("/{")
+            );
 
-          return (
-            <div key={key}>
-              <h3 className="text-3xl">
-                {title && (
+            return (
+              <div key={key}>
+                <h3 className="text-3xl">
+                  {title && (
+                    <Text
+                      handleTextChange={handleTitleChange}
+                      index={key}
+                      text={title[key]}
+                      key={key}
+                    />
+                  )}
+                </h3>
+                {imgSrc && (
+                  <>
+                    <img
+                      src={imgSrc}
+                      alt={title && title[key]}
+                      className="w-full max-h-96 mt-11"
+                    />
+                    <a
+                      className="text-xs max-w-screen-sm text-cyan-500 under"
+                      href={imgSrc}
+                    >
+                      Origem da imagem
+                    </a>
+                  </>
+                )}
+                <div className="my-10">
                   <Text
-                    handleTextChange={handleTitleChange}
+                    handleTextChange={handleTextList}
                     index={key}
-                    text={title[key]}
+                    text={content}
                     key={key}
                   />
-                )}
-              </h3>
-              {imgSrc && (
-                <>
-                  <img
-                    src={imgSrc}
-                    alt={title && title[key]}
-                    className="w-full max-h-96 mt-11"
-                  />
-                  <a
-                    className="text-xs max-w-screen-sm text-cyan-500"
-                    href={imgSrc}
-                  >
-                    Origem da imagem
-                  </a>
-                </>
-              )}
-              <p className="my-10">
-                <Text
-                  handleTextChange={handleTextList}
-                  index={key}
-                  text={content}
-                  key={key}
-                />
-              </p>
-            </div>
-          );
-        })}
+                </div>
+              </div>
+            );
+          })}
       </article>
 
       <div>

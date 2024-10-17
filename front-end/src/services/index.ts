@@ -27,7 +27,6 @@ export const fetchGames = async () => {
 export const fetchSmartphones = async () => {
   try {
     const response = await api.get("/smartphones");
-    console.log(response);
 
     return response.data;
   } catch (error) {

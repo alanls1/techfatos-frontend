@@ -2,22 +2,20 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/",
 });
 
 export const fetchDataLogin = async (name: string, password: string) => {
   try {
-    const response = await api.post(
-      `${process.env.NEXT_PUBLIC_API_URL}auth/login`,
-      {
-        login: name,
-        password: password,
-      }
-    );
+    const response = await api.post(`auth/login`, {
+      login: name,
+      password: password,
+    });
 
     const token = response.data;
 
     Cookies.set("CinetokAuthToken", token, { secure: false, sameSite: "Lax" });
+    return token;
   } catch (err: any) {
     throw (
       err?.reponse?.data.error || err?.message || "An unknown error occurred"
@@ -59,6 +57,7 @@ export const saveToDatabase = async (
         },
       }
     );
+
     return response.status;
   } catch (error: any) {
     throw error;
@@ -92,6 +91,7 @@ export const fetchAddManualy = async (formData: {
         Authorization: `Bearer ${Cookies.get("CinetokAuthToken")}`,
       },
     });
+
     return response.data;
   } catch (error) {
     throw error;

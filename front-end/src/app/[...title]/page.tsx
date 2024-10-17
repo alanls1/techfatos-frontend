@@ -75,61 +75,71 @@ const Home = () => {
 
       <div>
         {data?.urlToImage && (
-          <img
-            src={data?.urlToImage}
-            alt={data?.author}
-            className="w-full max-h-96 mt-11"
-          />
+          <>
+            <img
+              src={data?.urlToImage}
+              alt={data?.author}
+              className="w-full max-h-96 mt-11"
+            />
+            <a
+              className="text-xs max-w-screen-sm text-cyan-500"
+              href={data?.urlToImage}
+            >
+              Origem da imagem
+            </a>
+          </>
         )}
-        <a
-          className="text-xs max-w-screen-sm text-cyan-500"
-          href={data?.urlToImage}
-        >
-          Origem da imagem
-        </a>
       </div>
 
       <article className="mt-11">
         {textFormat?.map((text, key) => (
-          <p key={key} className="my-10">
-            {text}
-          </p>
+          <div
+            key={key}
+            className="my-10 primary-content"
+            dangerouslySetInnerHTML={{ __html: text }}
+          />
         ))}
       </article>
 
       <article className="mt-11">
-        {textList?.map((text, key) => {
-          const title = data?.titleSecond.split("|*");
-          const imgSrc = text
-            .slice(text.indexOf("/{") + 2, text.indexOf("}/"))
-            .trim();
-          const content = text.slice(
-            text.indexOf("|*") + 1,
-            text.indexOf("/{")
-          );
+        {textList &&
+          textList?.map((text, key) => {
+            const title = data?.titleSecond.split("|*");
+            const imgSrc = text
+              .slice(text.indexOf("/{") + 2, text.indexOf("}/"))
+              .trim();
+            const content = text.slice(
+              text.indexOf("|*") + 1,
+              text.indexOf("/{")
+            );
 
-          return (
-            <div key={key}>
-              <h3 className="text-3xl">{title && title[key]}</h3>
-              {imgSrc && (
-                <>
-                  <img
-                    src={imgSrc}
-                    alt={title && title[key]}
-                    className="w-full max-h-96 mt-11"
+            return (
+              <div key={key}>
+                <h3 className="text-2xl ">{title && title[key]}</h3>
+                {imgSrc && (
+                  <>
+                    <img
+                      src={imgSrc}
+                      alt={title && title[key]}
+                      className="w-full max-h-96 mt-11"
+                    />
+                    <a
+                      className="text-xs max-w-screen-sm text-cyan-500"
+                      href={imgSrc}
+                    >
+                      Origem da imagem
+                    </a>
+                  </>
+                )}
+                {content && (
+                  <div
+                    className="my-10 secondary-content"
+                    dangerouslySetInnerHTML={{ __html: content }}
                   />
-                  <a
-                    className="text-xs max-w-screen-sm text-cyan-500"
-                    href={imgSrc}
-                  >
-                    Origem da imagem
-                  </a>
-                </>
-              )}
-              <p className="my-10">{content}</p>
-            </div>
-          );
-        })}
+                )}
+              </div>
+            );
+          })}
       </article>
 
       <div>

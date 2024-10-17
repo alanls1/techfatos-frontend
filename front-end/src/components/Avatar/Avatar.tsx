@@ -50,7 +50,7 @@ const AvatarMenu = () => {
         }}
       >
         <MenuItem onClick={handleClose}>
-          <a href="/admin/adicionar">Adicionar</a>
+          <a href="/alan-admin/adicionar">Adicionar</a>
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <Button onClick={logout}>Logout</Button>
