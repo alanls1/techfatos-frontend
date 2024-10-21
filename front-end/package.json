@@ -1,6 +1,6 @@
 {
-  "name": "front-end",
-  "version": "0.1.0",
+  "name": "tech_fatos",
+  "version": "1.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
