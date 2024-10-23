@@ -232,6 +232,9 @@ const tags = [
     tag: "<h4 className='text-lg'></h4>",
   },
   {
+    tag: "<li className='list-disc'></li>",
+  },
+  {
     tag: "<li className='list-decimal'></li>",
   },
   {
