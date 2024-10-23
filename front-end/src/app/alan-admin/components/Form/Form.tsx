@@ -237,6 +237,9 @@ const tags = [
   {
     tag: "<strong></strong>",
   },
+  {
+    tag: "<h3></h3>",
+  },
 ];
 
 export default Form;

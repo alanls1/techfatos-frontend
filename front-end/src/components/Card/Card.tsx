@@ -63,7 +63,7 @@ const CardComponent = ({
                 textOverflow: "ellipsis",
                 height: 63,
               }}
-              dangerouslySetInnerHTML={{ __html: content }}
+              dangerouslySetInnerHTML={{ __html: content?.substring(0, 300) }}
             />
           </CardContent>
         </CardActionArea>

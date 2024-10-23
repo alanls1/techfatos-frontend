@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import "./style.css";
-import Head from "next/head";
+import { Helmet } from "react-helmet";
 
 interface Props {
   author: string;
@@ -69,10 +69,15 @@ const Home = ({ path }: { path: string }) => {
 
   return (
     <>
-      <Head>
-        <title>{data?.title}</title>
-        <meta name="description" content={data?.content || data?.title} />
-      </Head>
+      {data && (
+        <Helmet>
+          <title>{data?.title}</title>
+          <meta
+            name="description"
+            content={data?.content.substring(0, 160) || data.title}
+          />
+        </Helmet>
+      )}
       <div className="max-w-screen-md mx-auto mt-40 px-2">
         <h1 className="text-4xl">{data?.title}</h1>
         <p className="text-xs">
