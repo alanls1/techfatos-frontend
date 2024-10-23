@@ -240,6 +240,9 @@ const tags = [
   {
     tag: "<h3></h3>",
   },
+  {
+    tag: "<li></li>",
+  },
 ];
 
 export default Form;
