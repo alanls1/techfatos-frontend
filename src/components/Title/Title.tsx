@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 
 import "./style.css";
 import { Helmet } from "react-helmet";
+import NotFound from "@/app/404";
 
 interface Props {
   author: string;
@@ -63,7 +64,9 @@ const Home = ({ path }: { path: string }) => {
   }, [title]);
 
   if (loading) return <div>Loading...</div>;
-
+  if (!data) {
+    return <NotFound />;
+  }
   const textFormat = data?.content ? data?.content.split("\n") : [];
   const textList = data?.urls ? data.urls.split("|*") : [];
 
