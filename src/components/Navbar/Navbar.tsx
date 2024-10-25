@@ -23,7 +23,7 @@ const Navbar = ({
   const router = useRouter();
 
   return (
-    <header className="w-full flex flex-col items-center bg-[#1F2937] text-white pt-4">
+    <header className="w-full flex flex-col items-center bg-black text-white pt-4">
       <nav className="w-full flex justify-around items-center">
         <a href={home} style={{ fontFamily: "fantasy", fontSize: "1.3rem" }}>
           Tech <span className="text-red-400">Fatos</span>

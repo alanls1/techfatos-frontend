@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 
 import "./style.css";
 import { Helmet } from "react-helmet";
+import NotFound from "../404";
+import { Box } from "@mui/material";
 
 interface Props {
   author: string;
@@ -62,8 +64,10 @@ const Home = () => {
     getData();
   }, [title]);
 
-  if (loading) return <div>Loading...</div>;
-
+  if (loading) return <Box sx={{ height: "100vh" }}>Loading...</Box>;
+  if (!data) {
+    return <NotFound />;
+  }
   const textFormat = data?.content ? data?.content.split("\n") : [];
   const textList = data?.urls ? data.urls.split("|*") : [];
 
