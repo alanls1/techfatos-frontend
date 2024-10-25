@@ -63,7 +63,7 @@ const Home = ({ path }: { path: string }) => {
     getData();
   }, [title]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Box sx={{ height: "100vh" }}>Loading...</Box>;
   if (!data) {
     return <NotFound />;
   }
