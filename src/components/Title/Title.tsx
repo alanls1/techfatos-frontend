@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import "./style.css";
 import { Helmet } from "react-helmet";
 import NotFound from "@/app/404";
+import { Box } from "@mui/material";
 
 interface Props {
   author: string;
