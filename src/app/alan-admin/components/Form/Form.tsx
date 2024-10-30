@@ -62,8 +62,9 @@ const Form = () => {
 
   const generateSitemap = async () => {
     let sitemap = ``;
-    const dataFetch = await fetchNews();
-    dataFetch.findAllItens.slice(0, 1).forEach((item: any) => {
+    const { news } = await fetchNews(1);
+
+    news.slice(0, 1).forEach((item: any) => {
       sitemap += `<url>
           <loc>https://techfatos.com/${
             item &&
