@@ -4,20 +4,7 @@ import { search } from "@/services";
 import React, { useEffect, useState } from "react";
 import CardComponent from "../Card/Card";
 import { useParams, useRouter } from "next/navigation";
-
-interface props {
-  author: string;
-  content: string;
-  creadtedAt: string;
-  description: string;
-  id: number;
-  name: string;
-  publishedAt: Date;
-  title: string;
-  updateAt: Date;
-  url: string;
-  urlToImage: string;
-}
+import { props } from "@/types";
 
 const Search = () => {
   const [data, setData] = useState<props[]>([]);

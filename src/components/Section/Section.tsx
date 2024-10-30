@@ -5,25 +5,14 @@ import React, { useEffect, useState } from "react";
 import BoxComponent from "../Box/Box";
 import CardComponent from "../Card/Card";
 import { useRouter } from "next/navigation";
-import { Backdrop, CircularProgress } from "@mui/material";
-
-interface props {
-  author: string;
-  content: string;
-  creadtedAt: string;
-  description: string;
-  id: number;
-  name: string;
-  publishedAt: Date;
-  title: string;
-  updateAt: Date;
-  url: string;
-  urlToImage: string;
-}
+import { Backdrop, CircularProgress, Pagination } from "@mui/material";
+import { props } from "@/types";
 
 const Section = () => {
   const [data, setData] = useState<props[]>();
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
   const roter = useRouter();
 
   const handleClick = (title: string, id: number) => {
@@ -38,19 +27,24 @@ const Section = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const dataFetch = await fetchNews();
+        const { currentPage, news, totalPages } = await fetchNews(page);
 
-        setData(dataFetch.findAllItens);
+        setData(news);
+        setPage(currentPage);
+        setTotalPage(totalPages);
+
         setInterval(() => {
           setIsLoading(false);
         }, 1000);
-      } catch (error) {
-        console.error("Erro ao buscar notícias:", error);
-      }
+      } catch (error) {}
     }
 
     fetchData();
-  }, []);
+  }, [page]);
+
+  const handlePage = (e: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
 
   return (
     <>
@@ -147,6 +141,26 @@ const Section = () => {
           </div>
         </div>
       )}
+      <div className="mt-32 flex justify-center">
+        <Pagination
+          count={totalPage}
+          color="primary"
+          page={page}
+          onChange={handlePage}
+          size="medium"
+          sx={{
+            "@media (max-width: 400px)": {
+              ".css-1pm1cjd-MuiButtonBase-root-MuiPaginationItem-root ,.css-1gaup4j-MuiButtonBase-root-MuiPaginationItem-root":
+                {
+                  minWidth: {
+                    xs: "26px",
+                  },
+                  height: "26px",
+                },
+            },
+          }}
+        />
+      </div>
     </>
   );
 };

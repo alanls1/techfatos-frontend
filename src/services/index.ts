@@ -4,41 +4,56 @@ const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
-export const fetchNews = async () => {
+export const fetchNews = async (page: number) => {
   try {
-    const response = await api.get("/");
-    console.log(response);
-    return response.data;
+    const response = await api.get("/", {
+      params: {
+        page: page,
+      },
+    });
+    return response?.data?.findAllItens;
   } catch (error) {
     throw error;
   }
 };
 
-export const fetchGames = async () => {
+export const fetchGames = async (page: number) => {
   try {
-    const response = await api.get("/games");
+    const response = await api.get("/games", {
+      params: {
+        page: page,
+      },
+    });
 
-    return response.data;
+    return response?.data?.findGames;
   } catch (error) {
     throw error;
   }
 };
 
-export const fetchSmartphones = async () => {
+export const fetchSmartphones = async (page: number) => {
   try {
-    const response = await api.get("/smartphones");
+    const response = await api.get("/smartphones", {
+      params: {
+        page: page,
+      },
+    });
 
-    return response.data;
+    return response?.data?.findSmartphones;
   } catch (error) {
     throw error;
   }
 };
 
-export const fetchComputers = async () => {
+export const fetchComputers = async (page: number) => {
   try {
-    const response = await api.get("/computers");
+    const response = await api.get(`/computers`, {
+      params: {
+        page: page,
+      },
+    });
 
-    return response.data;
+    return response?.data?.findComputers;
   } catch (error) {
     throw error;
   }

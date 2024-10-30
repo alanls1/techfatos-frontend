@@ -5,24 +5,15 @@ import React, { useEffect, useState } from "react";
 import BoxComponent from "../BoxAdmin/Box";
 import CardComponent from "../CardAdmin/Card";
 import { useRouter } from "next/navigation";
-
-interface props {
-  author: string;
-  content: string;
-  creadtedAt: string;
-  description: string;
-  id: number;
-  name: string;
-  publishedAt: Date;
-  title: string;
-  updateAt: Date;
-  url: string;
-  urlToImage: string;
-}
+import { props } from "@/types";
+import { Pagination } from "@mui/material";
 
 const Section = () => {
   const [data, setData] = useState<props[]>();
   const router = useRouter();
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
+  const roter = useRouter();
 
   const handleClick = (title: string, id: number) => {
     router.push(
@@ -36,14 +27,20 @@ const Section = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const dataFetch = await fetchNews();
+        const { currentPage, news, totalPages } = await fetchNews(page);
 
-        setData(dataFetch.findAllItens);
+        setData(news);
+        setPage(currentPage);
+        setTotalPage(totalPages);
       } catch (error) {}
     }
 
     fetchData();
-  }, []);
+  }, [page]);
+
+  const handlePage = (e: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
 
   return (
     <>
@@ -130,6 +127,26 @@ const Section = () => {
           </div>
         </div>
       )}
+      <div className="mt-32 flex justify-center">
+        <Pagination
+          count={totalPage}
+          color="primary"
+          page={page}
+          onChange={handlePage}
+          size="medium"
+          sx={{
+            "@media (max-width: 400px)": {
+              ".css-1pm1cjd-MuiButtonBase-root-MuiPaginationItem-root ,.css-1gaup4j-MuiButtonBase-root-MuiPaginationItem-root":
+                {
+                  minWidth: {
+                    xs: "26px",
+                  },
+                  height: "26px",
+                },
+            },
+          }}
+        />
+      </div>
     </>
   );
 };

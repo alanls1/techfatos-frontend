@@ -5,20 +5,7 @@ import React, { useEffect, useState } from "react";
 import BoxComponent from "../Box/Box";
 import CardComponent from "../Card/Card";
 import { useRouter } from "next/navigation";
-
-interface props {
-  author: string;
-  content: string;
-  creadtedAt: string;
-  description: string;
-  id: number;
-  name: string;
-  publishedAt: Date;
-  title: string;
-  updateAt: Date;
-  url: string;
-  urlToImage: string;
-}
+import { props } from "@/types";
 
 const GameComponent = ({
   dataProps,
@@ -31,6 +18,7 @@ const GameComponent = ({
 }) => {
   const [data, setData] = useState<props[]>(dataProps);
   const roter = useRouter();
+
   const handleClick = (title: string, id: number) => {
     roter.push(
       `/${urlLocation}/${title
@@ -48,12 +36,10 @@ const GameComponent = ({
           const regex = new RegExp(`\\b${keyword.toLowerCase()}\\b`, "i");
           return regex.test(item.content.toLowerCase());
         });
-
       return match;
     });
-
     setData(filter);
-  }, []);
+  }, [dataProps]);
 
   return (
     <>
@@ -74,7 +60,7 @@ const GameComponent = ({
             //style={{ gridTemplateColumns: "2fr 1fr" }}
           >
             <div className="w-full grid md:grid-cols-2 gap-5">
-              {data.slice(1).map((item, key) => (
+              {data?.slice(1).map((item, key) => (
                 <CardComponent
                   content={item.description}
                   name={item.name}

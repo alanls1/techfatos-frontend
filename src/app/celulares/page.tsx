@@ -1,19 +1,24 @@
 "use client";
 import GameComponent from "@/components/gamesComponent/gameComponent";
 import { fetchSmartphones } from "@/services";
-import { Typography } from "@mui/material";
+import { Pagination, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
 export default function Home() {
   const [data, setData] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const dataFetch = await fetchSmartphones();
+        const { currentPage, news, totalPages } = await fetchSmartphones(page);
 
-        setData(dataFetch.findSmartphones);
+        setData(news);
+        setPage(currentPage);
+        setTotalPage(totalPages);
+
         setInterval(() => {
           setIsLoading(false);
         }, 1000);
@@ -21,7 +26,7 @@ export default function Home() {
     }
 
     fetchData();
-  }, []);
+  }, [page]);
 
   const incluesArr = [
     "Smartphone",
@@ -69,6 +74,10 @@ export default function Home() {
     "Lançamento de celular",
   ];
 
+  const handlePage = (e: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+
   return (
     <>
       {isLoading && <div className="h-screen"></div>}
@@ -88,6 +97,26 @@ export default function Home() {
             incluesArr={incluesArr}
           />
         )}
+        <div className="mt-32 flex justify-center">
+          <Pagination
+            count={totalPage}
+            color="primary"
+            page={page}
+            onChange={handlePage}
+            size="medium"
+            sx={{
+              "@media (max-width: 400px)": {
+                ".css-1pm1cjd-MuiButtonBase-root-MuiPaginationItem-root ,.css-1gaup4j-MuiButtonBase-root-MuiPaginationItem-root":
+                  {
+                    minWidth: {
+                      xs: "26px",
+                    },
+                    height: "26px",
+                  },
+              },
+            }}
+          />
+        </div>
       </main>
     </>
   );

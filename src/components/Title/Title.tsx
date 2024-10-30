@@ -7,27 +7,13 @@ import "./style.css";
 import { Helmet } from "react-helmet";
 import NotFound from "@/app/404";
 import { Box } from "@mui/material";
-
-interface Props {
-  author: string;
-  content: string;
-  createdAt: string;
-  description: string;
-  id: number;
-  name: string;
-  publishedAt: Date;
-  title: string;
-  updatedAt: Date;
-  url: string;
-  urlToImage: string;
-  urls: string;
-  titleSecond: string;
-}
+import { props } from "@/types";
+import Image from "next/image";
 
 const Home = ({ path }: { path: string }) => {
   const { title } = useParams();
-  const [data, setData] = useState<Props>();
-  const [suggestions, setSuggestions] = useState<Props[]>([]);
+  const [data, setData] = useState<props>();
+  const [suggestions, setSuggestions] = useState<props[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -91,10 +77,17 @@ const Home = ({ path }: { path: string }) => {
         <div>
           {data?.urlToImage && (
             <>
-              <img
+              {/* <img
                 src={data?.urlToImage}
                 alt={data?.author}
                 className="w-full max-h-96 mt-11"
+              /> */}
+              <Image
+                src={data?.urlToImage}
+                alt={data?.title}
+                className="w-full max-h-96 mt-11"
+                width={300}
+                height={300}
               />
               <a
                 className="text-xs max-w-screen-sm text-cyan-500"
@@ -133,10 +126,17 @@ const Home = ({ path }: { path: string }) => {
                   <h3 className="text-3xl">{title && title[key]}</h3>
                   {imgSrc && (
                     <>
-                      <img
+                      {/* <img
                         src={imgSrc}
                         alt={title && title[key]}
                         className="w-full max-h-96 mt-11"
+                      /> */}
+                      <Image
+                        src={imgSrc}
+                        alt={title && title[key]}
+                        className="w-full max-h-96 mt-11"
+                        width={300}
+                        height={300}
                       />
                       <a
                         className="text-xs max-w-screen-sm text-cyan-500"
@@ -169,10 +169,17 @@ const Home = ({ path }: { path: string }) => {
                       className="w-80 mr-3 relative cursor-pointer"
                       onClick={() => handleClick(item.title, item.id)}
                     >
-                      <img
+                      {/* <img
                         src={item.urlToImage}
                         alt={item.title}
                         className="w-full h-full"
+                      /> */}
+                      <Image
+                        src={data?.urlToImage}
+                        alt={data?.title}
+                        className="w-full max-h-96 mt-11"
+                        width={300}
+                        height={300}
                       />
                       <div className="w-full h-full bg-[#1e293b6b] absolute top-0 left-0"></div>
                       <div className="w-full h-1/3 bg-[#1e293bbb] absolute bottom-0 left-0">

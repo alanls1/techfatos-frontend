@@ -5,20 +5,7 @@ import React, { useEffect, useState } from "react";
 import BoxComponent from "../BoxAdmin/Box";
 import CardComponent from "../CardAdmin/Card";
 import { useRouter } from "next/navigation";
-
-interface props {
-  author: string;
-  content: string;
-  creadtedAt: string;
-  description: string;
-  id: number;
-  name: string;
-  publishedAt: Date;
-  title: string;
-  updateAt: Date;
-  url: string;
-  urlToImage: string;
-}
+import { props } from "@/types";
 
 const GameComponent = ({
   dataProps,
@@ -51,7 +38,7 @@ const GameComponent = ({
     });
 
     setData(filter);
-  }, []);
+  }, [dataProps]);
 
   return (
     <>
