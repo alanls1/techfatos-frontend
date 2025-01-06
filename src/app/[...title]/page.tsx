@@ -7,27 +7,15 @@ import "./style.css";
 import { Helmet } from "react-helmet";
 import NotFound from "../404";
 import { Box } from "@mui/material";
-
-interface Props {
-  author: string;
-  content: string;
-  createdAt: string;
-  description: string;
-  id: number;
-  name: string;
-  publishedAt: Date;
-  title: string;
-  updatedAt: Date;
-  url: string;
-  urlToImage: string;
-  urls: string;
-  titleSecond: string;
-}
+import Image from "next/image";
+import { props } from "@/types";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import CardToChange from "@/components/CardToChange/CardToChange";
 
 const Home = () => {
   const { title } = useParams();
-  const [data, setData] = useState<Props>();
-  const [suggestions, setSuggestions] = useState<Props[]>([]);
+  const [data, setData] = useState<props>();
+  const [suggestions, setSuggestions] = useState<props[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -82,19 +70,27 @@ const Home = () => {
           />
         </Helmet>
       )}
-      <div className="max-w-screen-md mx-auto mt-40 px-2">
+      <div className="max-w-screen-lg mx-auto mt-40 px-2">
         <h1 className="text-4xl">{data?.title}</h1>
-        <p className="text-xs">
+        <p className="text-xs flex items-center">
+          <AccessTimeIcon sx={{ fontSize: "1rem" }} />{" "}
           {data?.publishedAt && formatDate(data.publishedAt)}
         </p>
 
         <div>
           {data?.urlToImage && (
             <>
-              <img
+              {/* <img
                 src={data?.urlToImage}
                 alt={data?.title}
                 className="w-full max-h-96 mt-11"
+              /> */}
+              <Image
+                src={data?.urlToImage}
+                alt={data?.title}
+                className="w-full max-h-96 mt-11"
+                width={300}
+                height={300}
               />
               <a
                 className="text-xs max-w-screen-sm text-cyan-500"
@@ -158,29 +154,28 @@ const Home = () => {
         </article>
 
         <div>
-          <h4 className="text-base mt-5">Sugestões para Você:</h4>
-          <div className="overflow-x-auto overflow-y-hidden suggest">
-            <div className="flex w-max">
-              {suggestions.map(
-                (item, key) =>
-                  item.id !== Number(title[1]) && (
-                    <div
-                      key={key}
-                      className="w-80 mr-3 relative cursor-pointer"
-                      onClick={() => handleClick(item.title, item.id)}
-                    >
-                      <img
-                        src={item.urlToImage}
-                        alt={item.title}
-                        className="w-full h-full"
+          <h4 className=" mt-5 mb-5 font-bold text-3xl">
+            Sugestões para Você:
+          </h4>
+          <div className=" suggest">
+            <div className="max-w-7xl flex flex-wrap gap-3">
+              {suggestions
+                .slice(0, 7)
+                .map(
+                  (item, key) =>
+                    item.id !== Number(title[1]) && (
+                      <CardToChange
+                        urlImage={item?.urlToImage}
+                        author={item?.author}
+                        name={item?.name}
+                        title={item?.title}
+                        content={item?.content}
+                        date={item?.publishedAt}
+                        id={item?.id}
+                        key={item?.id}
                       />
-                      <div className="w-full h-full bg-[#1e293b6b] absolute top-0 left-0"></div>
-                      <div className="w-full h-1/3 bg-[#1e293bbb] absolute bottom-0 left-0">
-                        <h6 className="text-slate-50 ps-1">{item.title}</h6>
-                      </div>
-                    </div>
-                  )
-              )}
+                    )
+                )}
             </div>
           </div>
         </div>

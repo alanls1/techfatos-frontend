@@ -1,0 +1,15 @@
+.slide {
+  position: relative;
+}
+.slide div,
+.slide img {
+  border-radius: 0px;
+}
+
+.slide button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  z-index: 99;
+}

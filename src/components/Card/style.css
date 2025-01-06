@@ -1,3 +1,11 @@
+.suggest img {
+  border-radius: 20px;
+}
+.suggest::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 10px;
+}
+
 .primary-content h3,
 .secondary-content h3 {
   font-size: 1.875rem;
@@ -12,7 +20,7 @@ div .secondary-content a {
 
 .line-clamp {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -1,75 +1,92 @@
 /* eslint-disable @next/next/no-img-element */
-import { IconButton, ImageListItemBar, Box } from "@mui/material";
+import { IconButton, ImageListItemBar, Box, Button } from "@mui/material";
 import React from "react";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import Link from "next/link";
+
+import "./Box.css";
 
 const BoxComponent = ({
   urlImage,
   title,
   name,
   id,
-  handleClick,
+  date,
 }: {
   urlImage: string;
   title: string;
   name: string;
   author: string;
+  date: Date;
   id: number;
-  handleClick: (title: string, id: number) => void;
 }) => {
+  const datePublished = new Date(date).toLocaleDateString();
+
   return (
-    <Box
-      sx={{
-        position: "relative",
-        borderRadius: "10px",
-        cursor: "pointer",
-        maxHeight: "-webkit-fill-available",
-      }}
-    >
-      <img
-        //{...srcset(item.img, 121, item.rows, item.cols)}
-        src={urlImage || ""}
-        alt={title || name}
-        style={{
-          width: "100%",
-          maxHeight: "300px",
-          borderRadius: "10px",
-        }}
-        className="object-cover"
-        loading="lazy"
-      />
-      <div
-        className="w-full h-full bg-[#00000030] absolute top-0 left-0 rounded-2xl"
-        onClick={() => handleClick(title, id)}
-      ></div>
-      <ImageListItemBar
-        title={title}
+    urlImage &&
+    title &&
+    id && (
+      <Box
         sx={{
-          ".css-dasnyc-MuiImageListItemBar-title": {
-            whiteSpace: {
-              md: "inherit",
-            },
-            fontSize: {
-              sm: "20px",
-              xs: "16px",
-            },
-            height: "100%",
-          },
-          borderRadius: "0px 0px 10px 10px",
-          height: "40%",
-          ".css-1xtbwf1-MuiImageListItemBar-titleWrap ": { paddingBlock: 0 },
-          overflowY: "auto",
-          paddingTop: "10px",
+          position: "relative",
+          borderRadius: "10px",
+          cursor: "pointer",
+          maxHeight: "-webkit-fill-available",
+          width: "100%",
         }}
-        actionIcon={
-          <IconButton
+      >
+        <img
+          //{...srcset(item.img, 121, item.rows, item.cols)}
+          src={urlImage || ""}
+          alt={title || name}
+          className="w-full h-full sm:max-h-[400px] object-fill sm:object-cover rounded-xl"
+          loading="lazy"
+        />
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: "0px",
+            background: "#0000003d",
+            width: "100%",
+            padding: "10px 0 0 10px",
+          }}
+        >
+          <p className="title">{title}</p>
+          <Box
             sx={{
-              color: "rgba(255, 255, 255, 0.54)",
+              display: "flex",
+              alignItems: "center",
+              fontSize: ".9rem",
             }}
-            aria-label={`info about ${title}`}
-          ></IconButton>
-        }
-      ></ImageListItemBar>
-    </Box>
+          >
+            <AccessTimeIcon sx={{ fontSize: ".9rem", color: "white" }} />{" "}
+            <p className="ml-1 text-white">{datePublished}</p>
+          </Box>
+          <Link
+            href={`${
+              title
+                ? `/${title
+                    .toLowerCase()
+                    .replace(/[#?&/]/g, "-")
+                    .replace(/ /g, "-")}/${id}`
+                : ""
+            }`}
+          >
+            <Button
+              variant="outlined"
+              sx={{
+                borderColor: "white",
+                marginBlock: "20px 10px",
+                position: "inherit !important",
+              }}
+            >
+              Leia mais <ArrowForwardIcon sx={{ marginLeft: 1 }} />
+            </Button>
+          </Link>
+        </Box>
+      </Box>
+    )
   );
 };
 

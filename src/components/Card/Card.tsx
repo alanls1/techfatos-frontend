@@ -7,6 +7,8 @@ import {
 } from "@mui/material";
 import React from "react";
 
+import "./style.css";
+
 const CardComponent = ({
   urlImage,
   title,
@@ -24,10 +26,18 @@ const CardComponent = ({
 }) => {
   return (
     <div>
-      <Card sx={{ width: "100%", height: "100%", marginTop: "5px" }}>
+      <Card
+        sx={{
+          width: "100%",
+          height: "100%",
+          marginTop: "5px",
+        }}
+      >
         <CardActionArea
           sx={{
-            display: "flex",
+            display: "grid",
+            gridTemplateColumns: "repeat(2,1fr)",
+            gridAutoColumns: "200px",
             height: "100%",
             textOverflow: "ellipsis",
           }}
@@ -35,9 +45,15 @@ const CardComponent = ({
         >
           <CardMedia
             component="img"
-            sx={{ maxWidth: "50%" }}
-            image={urlImage}
+            image={urlImage || title}
             alt={title || name}
+            sx={{
+              height: "100%",
+              objectFit: {
+                sm: "cover",
+                xs: "fill",
+              },
+            }}
           />
           <CardContent
             sx={{
@@ -52,19 +68,10 @@ const CardComponent = ({
               variant="h5"
               component="div"
               sx={{ fontSize: { md: 17, xs: 15 } }}
+              className="line-clamp"
             >
               {title || name}
             </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                color: "text.secondary",
-                fontSize: { md: 18, xs: 15 },
-                textOverflow: "ellipsis",
-                height: 63,
-              }}
-              dangerouslySetInnerHTML={{ __html: content?.substring(0, 300) }}
-            />
           </CardContent>
         </CardActionArea>
       </Card>

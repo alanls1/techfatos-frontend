@@ -2,14 +2,26 @@
 "use client";
 import { search } from "@/services";
 import React, { useEffect, useState } from "react";
-import CardComponent from "../Card/Card";
 import { useParams, useRouter } from "next/navigation";
 import { props } from "@/types";
+import Image from "next/image";
+
+import "./style.css";
+import { Pagination } from "@mui/material";
+import CardToChange from "../CardToChange/CardToChange";
 
 const Search = () => {
   const [data, setData] = useState<props[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
   const roter = useRouter();
   const { query } = useParams();
+  const trim = decodeURIComponent(String(query))
+    .toLowerCase()
+    .replace(/[#?&/]/g, " ")
+    .replace(/%20/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 
   const handleClick = (title: string, id: number) => {
     roter.push(
@@ -23,9 +35,14 @@ const Search = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const dataFetch = await search(String(query));
+        const { currentPage, news, totalPages } = await search(
+          String(query),
+          page
+        );
 
-        setData(dataFetch.findByQuery);
+        setData(news);
+        setPage(currentPage);
+        setTotalPage(totalPages);
       } catch (error) {
         console.error("Erro ao buscar dados", error);
       }
@@ -33,25 +50,52 @@ const Search = () => {
 
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [page]);
+
+  const handlePage = (e: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
 
   return (
     <>
       {data && (
-        <div className="mt-8 w-full flex justify-center flex-col items-center">
-          <h2>Resultados encontrados para: {query}</h2>
-          <div className="lg:max-w-screen-lg md:max-w-screen-md sm:max-w-screen-sm px-1 grid grid-cols-1 md:grid-cols-2 mt-10 gap-2">
-            {data.map((item, key) => (
-              <CardComponent
-                content={item.content}
-                name={item.name}
-                title={item.title}
-                urlImage={item.urlToImage}
-                key={key}
-                id={item.id}
-                handleClick={handleClick}
-              />
-            ))}
+        <div className="px-1 mt-4 mx-auto max-w-5xl w-full flex justify-center flex-col items-center">
+          <h2 className="text-2xl my-3">Resultados encontrados para: {trim}</h2>
+          <div className=" suggest">
+            <div className="flex flex-wrap gap-3">
+              {data.map((item, key) => (
+                <CardToChange
+                  urlImage={item.urlToImage}
+                  author={item.author}
+                  name={item.name}
+                  title={item.title}
+                  content={item.content}
+                  date={item.publishedAt}
+                  id={item.id}
+                  key={item.id}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="mt-32 flex justify-center">
+            <Pagination
+              count={totalPage}
+              color="primary"
+              page={page}
+              onChange={handlePage}
+              size="medium"
+              sx={{
+                "@media (max-width: 400px)": {
+                  ".css-1pm1cjd-MuiButtonBase-root-MuiPaginationItem-root ,.css-1gaup4j-MuiButtonBase-root-MuiPaginationItem-root":
+                    {
+                      minWidth: {
+                        xs: "26px",
+                      },
+                      height: "26px",
+                    },
+                },
+              }}
+            />
           </div>
         </div>
       )}

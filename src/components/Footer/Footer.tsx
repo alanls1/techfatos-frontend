@@ -13,7 +13,6 @@ const Footer = () => {
         <li className="cursor-pointer mx-4">
           <a href="/jogos">Jogos</a>
         </li>
-        <li className="cursor-pointer mx-4">Desenvolvimento de Software</li>
       </ul>
       <div
         style={{

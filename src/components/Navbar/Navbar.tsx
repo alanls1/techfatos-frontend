@@ -42,7 +42,7 @@ const Navbar = ({
           >
             <InputLabel
               htmlFor="search"
-              sx={{ top: -6, color: "white", ".Mui-focused": "white" }}
+              sx={{ top: -6, color: "white", ".MuiFocused": "white" }}
             >
               Search
             </InputLabel>
@@ -77,7 +77,7 @@ const Navbar = ({
           </FormControl>
         </div>
       </nav>
-      <ul className="md:w-1/2 flex flex-wrap justify-evenly mt-8 mb-8">
+      <ul className="md:w-1/2 flex justify-evenly mt-5 mb-5">
         <li className="cursor-pointer mx-4">
           <a href={cpu}>Computadores</a>
         </li>

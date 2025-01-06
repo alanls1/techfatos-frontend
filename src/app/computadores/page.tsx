@@ -73,15 +73,7 @@ export default function Home() {
     <>
       {isLoading && <div className="h-screen"></div>}
 
-      <main className="px-2">
-        <Typography
-          variant="h1"
-          className="text-center my-10 "
-          sx={{ fontSize: { md: "2rem", sm: "1.75rem", xs: "1.5rem" } }}
-        >
-          {!isLoading &&
-            "Atualize-se com as últimas notícias e tendências do mundo da tecnologia e computadores."}
-        </Typography>
+      <main>
         {data && (
           <GameComponent
             dataProps={data}

@@ -13,7 +13,6 @@ const Section = () => {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
-  const roter = useRouter();
 
   const handleClick = (title: string, id: number) => {
     router.push(
@@ -48,28 +47,28 @@ const Section = () => {
         <div className="mt-8 w-full flex justify-center flex-col items-center">
           <div className="max-w-screen-lg">
             <BoxComponent
-              urlImage={data[0].urlToImage}
-              author={data[0].author}
-              name={data[0].name}
-              title={data[0].title}
+              urlImage={data[0]?.urlToImage}
+              author={data[0]?.author}
+              name={data[0]?.name}
+              title={data[0]?.title}
               id={data[0]?.id}
               handleClick={handleClick}
             />
           </div>
           <div className="max-w-screen-lg  grid grid-cols-2 mt-10 gap-12">
             <BoxComponent
-              urlImage={data[1].urlToImage}
-              author={data[1].author}
-              name={data[1].name}
-              title={data[1].title}
+              urlImage={data[1]?.urlToImage}
+              author={data[1]?.author}
+              name={data[1]?.name}
+              title={data[1]?.title}
               id={data[1]?.id}
               handleClick={handleClick}
             />
             <BoxComponent
-              urlImage={data[2].urlToImage}
-              author={data[2].author}
-              name={data[2].name}
-              title={data[2].title}
+              urlImage={data[2]?.urlToImage}
+              author={data[2]?.author}
+              name={data[2]?.name}
+              title={data[2]?.title}
               id={data[2]?.id}
               handleClick={handleClick}
             />
@@ -77,36 +76,36 @@ const Section = () => {
           <div className="max-w-screen-lg  grid grid-cols-2 mt-10 gap-1">
             <div className=" grid grid-cols-1 gap-1">
               <BoxComponent
-                urlImage={data[5].urlToImage}
-                author={data[5].author}
-                name={data[5].name}
-                title={data[5].title}
+                urlImage={data[5]?.urlToImage}
+                author={data[5]?.author}
+                name={data[5]?.name}
+                title={data[5]?.title}
                 id={data[5]?.id}
                 handleClick={handleClick}
               />
               <BoxComponent
-                urlImage={data[6].urlToImage}
-                author={data[6].author}
-                name={data[6].name}
-                title={data[6].title}
+                urlImage={data[6]?.urlToImage}
+                author={data[6]?.author}
+                name={data[6]?.name}
+                title={data[6]?.title}
                 id={data[6]?.id}
                 handleClick={handleClick}
               />
             </div>
             <div className=" grid grid-cols-1 gap-1">
               <BoxComponent
-                urlImage={data[4].urlToImage}
-                author={data[4].author}
-                name={data[4].name}
-                title={data[4].title}
+                urlImage={data[4]?.urlToImage}
+                author={data[4]?.author}
+                name={data[4]?.name}
+                title={data[4]?.title}
                 id={data[4]?.id}
                 handleClick={handleClick}
               />
               <BoxComponent
-                urlImage={data[3].urlToImage}
-                author={data[3].author}
-                name={data[3].name}
-                title={data[3].title}
+                urlImage={data[3]?.urlToImage}
+                author={data[3]?.author}
+                name={data[3]?.name}
+                title={data[3]?.title}
                 id={data[3]?.id}
                 handleClick={handleClick}
               />

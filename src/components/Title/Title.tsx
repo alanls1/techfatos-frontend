@@ -9,6 +9,7 @@ import NotFound from "@/app/404";
 import { Box } from "@mui/material";
 import { props } from "@/types";
 import Image from "next/image";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 const Home = ({ path }: { path: string }) => {
   const { title } = useParams();
@@ -71,6 +72,7 @@ const Home = ({ path }: { path: string }) => {
       <div className="max-w-screen-md mx-auto mt-40 px-2">
         <h1 className="text-4xl">{data?.title}</h1>
         <p className="text-xs">
+          <AccessTimeIcon sx={{ color: "black" }} />{" "}
           {data?.publishedAt && formatDate(data.publishedAt)}
         </p>
 
@@ -158,32 +160,29 @@ const Home = ({ path }: { path: string }) => {
         </article>
 
         <div>
-          <h4 className="text-base mt-5">Sugestões para Você:</h4>
-          <div className="overflow-x-auto overflow-y-hidden suggest">
-            <div className="flex w-max">
-              {suggestions.map(
+          <h4 className="text-base mt-5 mb-5">Sugestões para Você:</h4>
+          <div className=" suggest">
+            <div className="grid sm:grid-cols-3 auto-rows-[200px] gap-2 ">
+              {suggestions.slice(0, 7).map(
                 (item, key) =>
                   item.id !== Number(title[1]) && (
                     <div
                       key={key}
-                      className="w-80 mr-3 relative cursor-pointer"
+                      className="w-full  relative cursor-pointer "
                       onClick={() => handleClick(item.title, item.id)}
                     >
-                      {/* <img
+                      <Image
                         src={item.urlToImage}
                         alt={item.title}
                         className="w-full h-full"
-                      /> */}
-                      <Image
-                        src={data?.urlToImage}
-                        alt={data?.title}
-                        className="w-full max-h-96 mt-11"
                         width={300}
                         height={300}
                       />
-                      <div className="w-full h-full bg-[#1e293b6b] absolute top-0 left-0"></div>
-                      <div className="w-full h-1/3 bg-[#1e293bbb] absolute bottom-0 left-0">
-                        <h6 className="text-slate-50 ps-1">{item.title}</h6>
+                      <div className="w-full h-full  absolute top-0 left-0"></div>
+                      <div className="w-full h-1/3 rounded-b-3xl bg-[#1e293bbb] absolute bottom-0 left-0 text-xs overflow-y-hidden ">
+                        <h6 className="text-slate-50 pl-2 line-clamp">
+                          {item.title}
+                        </h6>
                       </div>
                     </div>
                   )

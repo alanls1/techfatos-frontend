@@ -1,7 +1,11 @@
 {
   "name": "tech_fatos",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "private": true,
+  "author": {
+    "name": "Alan Lima de Souza",
+    "email": "alanlima4123@gmail.com"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,16 +14,17 @@
     "test": "jest"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^3.5.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.0.2",
+    "@mui/joy": "^5.0.0-beta.50",
     "@mui/material": "^6.0.1",
     "@next/third-parties": "^14.2.11",
     "@testing-library/user-event": "^14.5.2",
     "axios": "^1.7.5",
     "js-cookie": "^3.0.5",
     "next": "^14.2.11",
+    "quill": "^2.0.3",
     "react": "^18",
     "react-dom": "^18",
     "react-helmet": "^6.1.0",

@@ -1,0 +1,9 @@
+.buttons button {
+  background-color: var(--light-blue-dark);
+  border: 1px solid var(--light-blue-dark);
+}
+
+.buttons button:hover {
+  background-color: var(--white);
+  color: var(--light-blue-dark);
+}

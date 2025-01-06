@@ -65,7 +65,7 @@ const CardComponent = ({
           <CardMedia
             component="img"
             sx={{ maxWidth: "50%" }}
-            image={urlImage}
+            image={urlImage || title}
             alt={title || name}
           />
           <CardContent

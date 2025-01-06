@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, Button, TextField } from "@mui/material";
+import { Alert, AlertTitle, Box, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { fetchAddManualy } from "@/services/admin";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -107,83 +107,92 @@ const Form = () => {
           Gerar
         </Button>
       </div>
-      <div className="flex flex-col justify-self-start">
-        <h1 className="text-5xl">Adicionar manualmente</h1>
-        <div className="">
-          <div className="flex items-center ">
-            <TextField
-              label="title"
-              sx={{ width: "100%", padding: 0, margin: 0, marginTop: 5 }}
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
+      <Box>
+        <div className="flex flex-col justify-self-start">
+          <h1 className="text-5xl">Adicionar manualmente</h1>
+          <div className="">
+            <div className="flex items-center ">
+              <TextField
+                label="title"
+                sx={{ width: "100%", padding: 0, margin: 0, marginTop: 5 }}
+                onChange={(e) => setTitle(e.target.value)}
+                value={title}
+              />
+            </div>
+            <p className="text-xs"></p>
+          </div>
+          <div className="my-10">
+            <img
+              src={urlImage}
+              alt={title}
+              className=" w-full max-h-96 mt-11"
             />
-          </div>
-
-          <p className="text-xs"></p>
-        </div>
-        <div className="my-10">
-          <img src={urlImage} alt={title} className=" w-full max-h-96 mt-11" />
-          <a className="text-xs max-w-screen-sm text-cyan-500" href={urlImage}>
-            Origem da imagem
-          </a>
-          <div className="flex flex-col">
-            <TextField
-              label="urlToimage"
-              sx={{ width: "100%", padding: 0, margin: 0, marginTop: 5 }}
-              onChange={(e) => setUrlImage(e.target.value)}
-              value={urlImage}
-            />
-          </div>
-        </div>
-        <article className="mt-11"></article>
-        <TextField
-          label="title"
-          sx={{
-            width: "100%",
-            padding: 0,
-            margin: 0,
-            marginTop: 5,
-            textarea: {
-              resize: "block",
-            },
-          }}
-          onChange={(e) => setContent(e.target.value)}
-          value={content}
-          multiline
-          rows={6}
-        />
-
-        <article>
-          {control > 0 &&
-            Array.from({ length: control }).map((_, index) => (
-              <TextsField key={index} List={getTexts} />
-            ))}
-          <div className="w-full flex justify-center mt-10">
-            <Button onClick={() => setControl((prev) => prev + 1)}>
-              <AddCircleIcon />
-            </Button>
-          </div>
-        </article>
-        <div>
-          <Button
-            variant="contained"
-            color="success"
-            className="mr-2"
-            sx={{ width: "100%", marginTop: "30px" }}
-            onClick={handleClick}
-          >
-            Confirmar
-          </Button>
-          {isAdd && (
-            <Alert
-              severity={err ? "error" : "success"}
-              sx={{ paddingBlock: 0 }}
+            <a
+              className="text-xs max-w-screen-sm text-cyan-500"
+              href={urlImage}
             >
-              <AlertTitle>{err ? err : "Sucess"}</AlertTitle>
-            </Alert>
-          )}
+              Origem da imagem
+            </a>
+            <div className="flex flex-col">
+              <TextField
+                label="urlToimage"
+                sx={{ width: "100%", padding: 0, margin: 0, marginTop: 5 }}
+                onChange={(e) => setUrlImage(e.target.value)}
+                value={urlImage}
+              />
+            </div>
+          </div>
+          <article className="mt-11"></article>
+          <TextField
+            label="title"
+            sx={{
+              width: "100%",
+              padding: 0,
+              margin: 0,
+              marginTop: 5,
+              textarea: {
+                resize: "block",
+              },
+            }}
+            onChange={(e) => setContent(e.target.value)}
+            value={content}
+            multiline
+            rows={6}
+          />
+
+          <article>
+            {control > 0 &&
+              Array.from({ length: control }).map((_, index) => (
+                <TextsField key={index} List={getTexts} />
+              ))}
+            <div className="w-full flex justify-center mt-10">
+              <Button onClick={() => setControl((prev) => prev + 1)}>
+                <AddCircleIcon />
+              </Button>
+            </div>
+          </article>
+          <div>
+            <Button
+              variant="contained"
+              color="success"
+              className="mr-2"
+              sx={{ width: "100%", marginTop: "30px" }}
+              onClick={handleClick}
+            >
+              Confirmar
+            </Button>
+            {isAdd && (
+              <Alert
+                severity={err ? "error" : "success"}
+                sx={{ paddingBlock: 0 }}
+              >
+                <AlertTitle>{err ? err : "Sucess"}</AlertTitle>
+              </Alert>
+            )}
+          </div>
         </div>
-      </div>
+      </Box>
+
       <div className="fixed right-5 border">
         {tags.map((item, index) => (
           <div

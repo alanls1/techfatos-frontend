@@ -11,6 +11,7 @@ export const fetchNews = async (page: number) => {
         page: page,
       },
     });
+
     return response?.data?.findAllItens;
   } catch (error) {
     throw error;
@@ -66,9 +67,10 @@ export const findById = async (id: string) => {
   } catch (error) {}
 };
 
-export const search = async (query: string) => {
+export const search = async (query: string, page: number) => {
   try {
-    const response = await api.post(`/search/${query}`);
-    return response.data;
+    const response = await api.post(`/search/${query}`, { page });
+
+    return response.data.search;
   } catch (error) {}
 };

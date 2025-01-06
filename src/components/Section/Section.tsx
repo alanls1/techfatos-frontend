@@ -3,10 +3,24 @@
 import { fetchNews } from "@/services";
 import React, { useEffect, useState } from "react";
 import BoxComponent from "../Box/Box";
-import CardComponent from "../Card/Card";
 import { useRouter } from "next/navigation";
-import { Backdrop, CircularProgress, Pagination } from "@mui/material";
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
 import { props } from "@/types";
+
+import "./Section.css";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import CardToChange from "../CardToChange/CardToChange";
+import Link from "next/link";
+
+import hostiger from "../../assets/img/Hostinger_logo.png";
+import Image from "next/image";
 
 const Section = () => {
   const [data, setData] = useState<props[]>();
@@ -14,6 +28,7 @@ const Section = () => {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
   const roter = useRouter();
+  const [control, setControl] = useState(0);
 
   const handleClick = (title: string, id: number) => {
     roter.push(
@@ -42,9 +57,36 @@ const Section = () => {
     fetchData();
   }, [page]);
 
-  const handlePage = (e: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value);
+  const handleClickPrevius = () => {
+    if (control !== 0) {
+      setControl((prev) => prev - 1);
+    }
+    if (control === 0) {
+      setControl(3);
+    }
   };
+  const handleClickNext = () => {
+    if (control < 3) {
+      setControl((prev) => prev + 1);
+    }
+    if (control === 3) {
+      setControl(0);
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setControl((prev) => {
+        if (prev < 3) {
+          return prev + 1;
+        } else {
+          return 0;
+        }
+      });
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <>
@@ -59,89 +101,177 @@ const Section = () => {
         </div>
       )}
       {data && (
-        <div className="mt-8 w-full w flex justify-center flex-col items-center">
-          <div className="w-[-webkit-fill-available] lg:max-w-screen-[900px] md:max-w-screen-md sm:max-w-screen-sm md:min-w-[600px] sm:min-w-[400px]  max-h-[300px] px-1">
+        <div
+          className=" w-full w flex justify-center flex-col items-center"
+          style={{ backgroundColor: "var(--light-background)" }}
+        >
+          <div className="slide w-[-webkit-fill-available] sm:min-w-[400px] sm:h-full sm:max-h-[400px] h-[340px] flex">
+            <Button variant="text" onClick={handleClickPrevius}>
+              <ArrowBackIosIcon />
+            </Button>
             <BoxComponent
-              urlImage={data[0].urlToImage}
-              author={data[0].author}
-              name={data[0].name}
-              title={data[0].title}
-              id={data[0]?.id}
-              handleClick={handleClick}
+              urlImage={data[control]?.urlToImage}
+              author={data[control]?.author}
+              name={data[control]?.name}
+              title={data[control]?.title}
+              date={data[control]?.publishedAt}
+              id={data[control]?.id}
             />
+            <Button
+              variant="text"
+              sx={{ right: "0px" }}
+              onClick={handleClickNext}
+            >
+              <ArrowForwardIosIcon />
+            </Button>
           </div>
-          <div className="w-[-webkit-fill-available] lg:max-w-screen-[900px] md:max-w-screen-md sm:max-w-screen-sm px-1 grid grid-cols-2 mt-4 gap-1">
-            <BoxComponent
-              urlImage={data[1].urlToImage}
-              author={data[1].author}
-              name={data[1].name}
-              title={data[1].title}
-              id={data[1]?.id}
-              handleClick={handleClick}
-            />
-            <BoxComponent
-              urlImage={data[2].urlToImage}
-              author={data[2].author}
-              name={data[2].name}
-              title={data[2].title}
-              id={data[2]?.id}
-              handleClick={handleClick}
-            />
-          </div>
-          <div className="w-[-webkit-fill-available] lg:max-w-screen-[900px] md:max-w-screen-md sm:max-w-screen-sm px-1  grid grid-cols-2 mt-4 gap-1">
-            <div className=" grid grid-cols-1 gap-1">
-              <BoxComponent
-                urlImage={data[5].urlToImage}
-                author={data[5].author}
-                name={data[5].name}
-                title={data[5].title}
-                id={data[5]?.id}
-                handleClick={handleClick}
-              />
-              <BoxComponent
-                urlImage={data[6].urlToImage}
-                author={data[6].author}
-                name={data[6].name}
-                title={data[6].title}
-                id={data[6]?.id}
-                handleClick={handleClick}
-              />
+          <Box
+            sx={{
+              width: "100%",
+              display: "grid",
+              gridTemplateColumns: {
+                md: "2fr 0.5fr",
+                xs: "1fr",
+              },
+              marginTop: "50px",
+              padding: {
+                xs: "8px",
+              },
+            }}
+          >
+            <Box>
+              <Box className="section ">
+                <div>
+                  <h2 className="font-bold text-2xl md:pl-5">Principais</h2>
+                  <div className="flex flex-wrap lg:justify-around gap-3">
+                    <CardToChange
+                      urlImage={data[4]?.urlToImage}
+                      author={data[4]?.author}
+                      name={data[4]?.name}
+                      title={data[4]?.title}
+                      content={data[4]?.content}
+                      date={data[4]?.publishedAt}
+                      id={data[4]?.id}
+                    />
+                    <CardToChange
+                      urlImage={data[5]?.urlToImage}
+                      author={data[5]?.author}
+                      name={data[5]?.name}
+                      title={data[5]?.title}
+                      content={data[5]?.content}
+                      date={data[5]?.publishedAt}
+                      id={data[5]?.id}
+                    />
+                    <CardToChange
+                      urlImage={data[6]?.urlToImage}
+                      author={data[6]?.author}
+                      name={data[6]?.name}
+                      title={data[6]?.title}
+                      content={data[6]?.content}
+                      date={data[6]?.publishedAt}
+                      id={data[6]?.id}
+                    />
+                  </div>
+                </div>
+              </Box>
+              <Box className="section">
+                <div>
+                  <h2 className="font-bold text-2xl pl-5">Mais Lidas</h2>
+                  <div className="flex flex-wrap lg:justify-around gap-3">
+                    <CardToChange
+                      urlImage={data[7]?.urlToImage}
+                      author={data[7]?.author}
+                      name={data[7]?.name}
+                      title={data[7]?.title}
+                      content={data[7]?.content}
+                      date={data[7]?.publishedAt}
+                      id={data[7]?.id}
+                    />
+                    <CardToChange
+                      urlImage={data[8]?.urlToImage}
+                      author={data[8]?.author}
+                      name={data[8]?.name}
+                      title={data[8]?.title}
+                      content={data[8]?.content}
+                      date={data[8]?.publishedAt}
+                      id={data[8]?.id}
+                    />
+                    <CardToChange
+                      urlImage={data[9]?.urlToImage}
+                      author={data[9]?.author}
+                      name={data[9]?.name}
+                      title={data[9]?.title}
+                      content={data[9]?.content}
+                      date={data[9]?.publishedAt}
+                      id={data[9]?.id}
+                    />
+                  </div>
+                </div>
+              </Box>
+              <Box className="section ">
+                <div>
+                  <h2 className="font-bold text-2xl pl-5">Novidades</h2>
+                  <div className="flex flex-wrap lg:justify-around gap-3">
+                    <CardToChange
+                      urlImage={data[10]?.urlToImage}
+                      author={data[10]?.author}
+                      name={data[10]?.name}
+                      title={data[10]?.title}
+                      content={data[10]?.content}
+                      date={data[10]?.publishedAt}
+                      id={data[10]?.id}
+                    />
+                    <CardToChange
+                      urlImage={data[11]?.urlToImage}
+                      author={data[11]?.author}
+                      name={data[11]?.name}
+                      title={data[11]?.title}
+                      content={data[11]?.content}
+                      date={data[11]?.publishedAt}
+                      id={data[11]?.id}
+                    />
+                    <CardToChange
+                      urlImage={data[12]?.urlToImage}
+                      author={data[12]?.author}
+                      name={data[12]?.name}
+                      title={data[12]?.title}
+                      content={data[12]?.content}
+                      date={data[12]?.publishedAt}
+                      id={data[12]?.id}
+                    />
+                  </div>
+                </div>
+              </Box>
+            </Box>
+            <div>
+              <Box>
+                <Link
+                  href={"https://hostinger.com.br?REFERRALCODE=85QALANLIRZP"}
+                  target="_blank"
+                >
+                  <Image
+                    src={hostiger}
+                    alt="Hostinger"
+                    width={250}
+                    height={200}
+                    className="w-full h-72"
+                  />
+                  <Typography variant="body1" sx={{ fontWeight: "bolder" }}>
+                    crie seu próprio site com a Hostinger
+                  </Typography>
+                  <Button
+                    variant="outlined"
+                    sx={{ borderColor: "#674CC5", color: "#674CC5" }}
+                  >
+                    Ver mais
+                  </Button>
+                </Link>
+              </Box>
             </div>
-            <div className=" grid grid-cols-1 gap-1">
-              <BoxComponent
-                urlImage={data[4].urlToImage}
-                author={data[4].author}
-                name={data[4].name}
-                title={data[4].title}
-                id={data[4]?.id}
-                handleClick={handleClick}
-              />
-              <BoxComponent
-                urlImage={data[3].urlToImage}
-                author={data[3].author}
-                name={data[3].name}
-                title={data[3].title}
-                id={data[3]?.id}
-                handleClick={handleClick}
-              />
-            </div>
-          </div>
-          <div className="lg:max-w-screen-lg md:max-w-screen-md sm:max-w-screen-sm px-1 grid grid-cols-1 md:grid-cols-2 mt-10 gap-2">
-            {data.slice(7).map((item, key) => (
-              <CardComponent
-                content={item.content}
-                name={item.name}
-                title={item.title}
-                urlImage={item.urlToImage}
-                key={key}
-                id={item.id}
-                handleClick={handleClick}
-              />
-            ))}
-          </div>
+          </Box>
         </div>
       )}
-      <div className="mt-32 flex justify-center">
+      {/* <div className="mt-32 flex justify-center">
         <Pagination
           count={totalPage}
           color="primary"
@@ -160,7 +290,7 @@ const Section = () => {
             },
           }}
         />
-      </div>
+      </div> */}
     </>
   );
 };

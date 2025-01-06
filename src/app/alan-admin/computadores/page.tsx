@@ -67,14 +67,6 @@ function Home() {
 
   return (
     <main className="">
-      <Typography
-        variant="h1"
-        className="text-center my-10"
-        sx={{ fontSize: "2rem" }}
-      >
-        Atualize-se com as últimas notícias e tendências do mundo da tecnologia
-        e computadores.
-      </Typography>
       {data && <GameComponent dataProps={data} incluesArr={incluesArr} />}
       <div className="mt-32 flex justify-center">
         <Pagination
