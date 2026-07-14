@@ -2,6 +2,7 @@
   "name": "tech_fatos",
   "version": "2.0.0",
   "private": true,
+  "license": "MIT",
   "author": {
     "name": "Alan Lima de Souza",
     "email": "alanlima4123@gmail.com"
@@ -22,6 +23,7 @@
     "@next/third-parties": "^14.2.11",
     "@testing-library/user-event": "^14.5.2",
     "axios": "^1.7.5",
+    "isomorphic-dompurify": "^2.16.0",
     "js-cookie": "^3.0.5",
     "next": "^14.2.11",
     "quill": "^2.0.3",

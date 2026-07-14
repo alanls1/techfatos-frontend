@@ -1,4 +1,5 @@
 import * as React from "react";
+import DOMPurify from "isomorphic-dompurify";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -71,7 +72,10 @@ export default function CardToChange({
         <p className="ml-1">{datePublished}</p>
       </Box>
       <CardContent sx={{ padding: "20px 0 0 0" }}>
-        <p className="content" dangerouslySetInnerHTML={{ __html: content }} />
+        <p
+          className="content"
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
+        />
       </CardContent>
 
       <Link

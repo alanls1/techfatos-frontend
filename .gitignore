@@ -13,11 +13,12 @@
 /.next/
 /out/
 
-/.env
+.env
+*.sql
+
 # production
 /build
-jest.config.ts
-babel.config.ts
+
 # misc
 .DS_Store
 *.pem

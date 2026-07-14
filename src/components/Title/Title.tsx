@@ -2,6 +2,7 @@
 import { findById } from "@/services";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import DOMPurify from "isomorphic-dompurify";
 
 import "./style.css";
 import { Helmet } from "react-helmet";
@@ -106,7 +107,7 @@ const Home = ({ path }: { path: string }) => {
             <div
               key={key}
               className="my-10 primary-content"
-              dangerouslySetInnerHTML={{ __html: text }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(text) }}
             />
           ))}
         </article>
@@ -151,7 +152,9 @@ const Home = ({ path }: { path: string }) => {
                   {content && (
                     <div
                       className="my-10 secondary-content"
-                      dangerouslySetInnerHTML={{ __html: content }}
+                      dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(content),
+                      }}
                     />
                   )}
                 </div>
